@@ -24,7 +24,13 @@ function App() {
       <ModalTemplate>
         <ModalHead image={letter} text="집콕 책읽기 사진 제출" />
         <ModalList>
-          <ModalInput id="1" label="이름" placeholder="이름을 입력해주세요" />
+          <ModalInput
+            id="1"
+            label="이름"
+            type="file"
+            accept="image/png, image/jpeg"
+            placeholder="이름을 입력해주세요"
+          />
         </ModalList>
       </ModalTemplate>
     </div>

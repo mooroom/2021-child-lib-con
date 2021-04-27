@@ -8,13 +8,6 @@ const InputGroup = styled.div`
 
 const InputLabel = styled.label`
   color: rgb(78, 89, 104);
-  /* position: absolute;
-  top: 27px;
-  left: 55px;
-  background: #ffffff;
-  transition: 300ms;
-  transform: translate(-50%, -50%); */
-
   display: block;
   padding: 4px 0;
   font-size: 15px;
@@ -60,6 +53,10 @@ const InputField = styled.input`
 
   &:focus {
     box-shadow: inset 0 0 0 2px var(--orange200);
+  }
+
+  #file-upload-button {
+    background: white !important;
   }
 `;
 
