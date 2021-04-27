@@ -29,6 +29,7 @@ function App() {
             label="이름"
             type="file"
             accept="image/png, image/jpeg"
+            capture="gallery"
             placeholder="이름을 입력해주세요"
           />
         </ModalList>
