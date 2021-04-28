@@ -1,12 +1,11 @@
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
-import { createGlobalStyle } from "styled-components";
-import ModalHead from "./components/modal/ModalHead";
-import ModalTemplate from "./components/modal/ModalTemplate";
-import TodoTemplate from "./components/modal/ModalTemplate";
 
-import letter from "./img/letter.svg";
-import ModalList from "./components/modal/ModalList";
-import ModalInput from "./components/modal/ModalInput";
+import { createGlobalStyle } from "styled-components";
+
+import Home from "./pages/Home";
+import Sub1 from "./pages/Sub1";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -18,23 +17,19 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const appHeight = () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
+  appHeight();
+  window.addEventListener("resize", appHeight);
+
   return (
-    <div>
+    <Router>
       <GlobalStyle />
-      <ModalTemplate>
-        <ModalHead image={letter} text="집콕 책읽기 사진 제출" />
-        <ModalList>
-          <ModalInput
-            id="1"
-            label="이름"
-            type="file"
-            accept="image/png, image/jpeg"
-            capture="gallery"
-            placeholder="이름을 입력해주세요"
-          />
-        </ModalList>
-      </ModalTemplate>
-    </div>
+      <Route exact path="/" component={Home} />
+      <Route path="/sub1" component={Sub1} />
+    </Router>
   );
 }
 
