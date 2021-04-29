@@ -5,16 +5,7 @@ import "./App.css";
 import { createGlobalStyle } from "styled-components";
 
 import Home from "./pages/Home";
-import Sub1 from "./pages/Sub1";
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    background: #e9ecef;
-  }
-  *,:after,:before {
-    box-sizing: border-box;
-  }
-`;
+import Sub from "./pages/Sub";
 
 function App() {
   const appHeight = () => {
@@ -26,9 +17,8 @@ function App() {
 
   return (
     <Router>
-      <GlobalStyle />
       <Route exact path="/" component={Home} />
-      <Route path="/sub1" component={Sub1} />
+      <Route path="/sub/:pagename" component={Sub} />
     </Router>
   );
 }

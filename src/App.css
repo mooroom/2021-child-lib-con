@@ -59,6 +59,14 @@
   --radius-l: 16px;
   --radius-xl: 20px;
   --radius-xxl: 24px;
+
+  --containerPadding: 48px;
+
+  --mon1: #4fb2ab;
+  --mon2: #ec898e;
+  --mon3: #905b9e;
+  --mon4: #e64c29;
+  --mon5: #69a71b;
 }
 
 html,
@@ -68,8 +76,23 @@ body {
   width: 100vw;
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
+  word-break: keep-all;
 }
 
 #root {
   height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
 }

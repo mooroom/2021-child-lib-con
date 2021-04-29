@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Particles from "react-tsparticles";
 
-import particlejson from "./particles.json";
+import Container from "../components/Container";
+import SquareContainer from "../components/SquareContainer";
+import SquareMenu from "../components/SquareMenu";
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    background: #FFEB6F;
-  }
-`;
+import title from "../img/title3.svg";
+import mon1 from "../img/mon_1.svg";
+import mon2 from "../img/mon_2.svg";
+import mon3 from "../img/mon_3.svg";
+import mon4 from "../img/mon_4.svg";
+import mon5 from "../img/mon_5.svg";
+import logo from "../img/logo_lib.svg";
 
 const options = {
   background: {
-    color: {},
+    color: "#FFEB6F",
   },
   fpsLimit: 60,
   interactivity: {
@@ -84,15 +88,108 @@ const options = {
   detectRetina: true,
   fullScreen: {
     enable: true,
-    zIndex: 1,
+    zIndex: -1,
   },
 };
+
+const menus = [
+  {
+    id: 1,
+    img: mon1,
+    txt: "응원영상",
+    link: "/sub/support",
+    type: "mon1",
+    subtxt: "어린이가 행복한 세상을 만들어요",
+  },
+  {
+    id: 2,
+    img: mon2,
+    txt: "온라인 극장",
+    link: "/sub/theater",
+    type: "mon2",
+    subtxt: "그림책 작가와 떠나는 신나는 이야기 여행",
+  },
+  {
+    id: 3,
+    img: mon3,
+    txt: "공모전",
+    link: "/sub/contest",
+    type: "mon3",
+    subtxt: "독서감상 그리기 대회, 집콕 책읽기 사진 공모전",
+  },
+  {
+    id: 4,
+    img: mon4,
+    txt: "프로그램",
+    link: "/sub/program",
+    type: "mon4",
+    subtxt: "미꿈소 뚝딱상자, 나만의 움직이는 자동차 만들기",
+  },
+  {
+    id: 5,
+    img: mon5,
+    txt: "이벤트",
+    link: "/sub5",
+    type: "mon5",
+    subtxt: "어린이 100명에게 선물 증정 (선착순)",
+  },
+];
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const TitleCon = styled.div`
+  width: 100%;
+  text-align: center;
+  img {
+    width: 60%;
+  }
+  margin-bottom: 2rem;
+`;
+
+const SubTitleCon = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--grey800);
+  margin-bottom: 2rem;
+`;
+
+const LogoCon = styled.div`
+  width: 100%;
+  text-align: center;
+  img {
+    height: 35px;
+  }
+  margin-top: 4rem;
+`;
 
 function Home(props) {
   return (
     <>
-      <GlobalStyle />
       <Particles id="tsparticles" options={options} />
+      <Container flex>
+        <TitleCon>
+          <img src={title} />
+        </TitleCon>
+        <SubTitleCon>
+          "어린이가 꿈꾸는 세상, 국립어린이청소년도서관이 응원합니다!"
+        </SubTitleCon>
+        <SquareContainer>
+          {menus.map((menu) => (
+            <SquareMenu option={menu} key={menu.id} />
+          ))}
+        </SquareContainer>
+        <LogoCon>
+          <img src={logo} />
+        </LogoCon>
+      </Container>
     </>
   );
 }
