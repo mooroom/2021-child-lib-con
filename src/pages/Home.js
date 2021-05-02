@@ -72,7 +72,7 @@ const options = {
         enable: true,
         value_area: 800,
       },
-      value: 80,
+      value: 40,
     },
     opacity: {
       value: 0.7,
@@ -129,7 +129,7 @@ const menus = [
     id: 5,
     img: mon5,
     txt: "이벤트",
-    link: "/sub5",
+    link: "/sub/event",
     type: "mon5",
     subtxt: "어린이 100명에게 선물 증정 (선착순)",
   },

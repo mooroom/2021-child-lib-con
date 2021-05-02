@@ -1,48 +1,56 @@
-import React, { useEffect } from "react";
-import { GlobalStyle } from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { css } from "styled-components";
 
 import Navbar from "../components/Navbar";
 import Banner from "../components/Banner";
+import Content from "../components/Content";
+import Container from "../components/Container";
 
-import ModalHead from "../components/modal/ModalHead";
-import ModalTemplate from "../components/modal/ModalTemplate";
+import Modal from "../components/modal/Modal";
 
 import bannerimg from "../img/banner.svg";
-import letter from "../img/letter.svg";
-import ModalList from "../components/modal/ModalList";
-import ModalInput from "../components/modal/ModalInput";
+import logo_lib from "../img/logo_lib.svg";
+import title3 from "../img/title3.svg";
 
-const pageData = {
-  support: {
-    banner: bannerimg,
-  },
-  theater: {},
-  contest: {},
-  program: {},
-  event: {},
-};
+const FooterBlock = styled.footer`
+  width: 100%;
+  background-color: var(--grey100);
+`;
+
+const FooterCon = styled.div`
+  width: 100%;
+  padding: 80px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    height: 50px;
+  }
+
+  img + img {
+    margin-left: 50px;
+  }
+`;
 
 function Sub({ match }) {
   const { pagename } = match.params;
-  const page = pageData[pagename];
+
+  const [modal, setModal] = useState(false);
 
   return (
     <>
       <Navbar current={pagename} />
       <Banner pagename={pagename} />
-      {/* <ModalTemplate>
-        <ModalHead image={letter} text="집콕 책읽기 사진 제출" />
-        <ModalList>
-          <ModalInput
-            id="1"
-            label="이름"
-            type="file"
-            accept="image/png, image/jpeg"
-            capture="gallery"
-            placeholder="이름을 입력해주세요"
-          />
-        </ModalList>
-      </ModalTemplate> */}
+      <Content pagename={pagename} setModal={setModal} />
+      <FooterBlock>
+        <Container>
+          <FooterCon>
+            <img src={title3} />
+            <img src={logo_lib} />
+          </FooterCon>
+        </Container>
+      </FooterBlock>
+      <Modal pagename={pagename} visible={modal} setVisible={setModal} />
     </>
   );
 }

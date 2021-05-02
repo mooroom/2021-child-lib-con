@@ -27,12 +27,27 @@ const Inner = styled.div`
       align-items: center;
       justify-content: center;
     `}
+
+  ${(props) =>
+    props.img &&
+    css`
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 800px;
+      img {
+        width: 100%;
+      }
+    `}
 `;
 
-function Container({ children, flex }) {
+function Container({ children, flex, img }) {
   return (
     <ContainerBlock flex={flex}>
-      <Inner flex={flex}>{children}</Inner>
+      <Inner flex={flex} img={img}>
+        {children}
+      </Inner>
     </ContainerBlock>
   );
 }

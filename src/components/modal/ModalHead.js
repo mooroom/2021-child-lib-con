@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 const ModalHeadBlock = styled.div`
-  padding: 20px;
+  padding: 40px 20px 20px;
   text-align: center;
   border-bottom: 1px solid #e9ecef;
   h1 {
     margin: 0;
+    color: var(--grey800);
   }
 `;
 

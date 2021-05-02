@@ -67,6 +67,7 @@
   --mon3: #905b9e;
   --mon4: #e64c29;
   --mon5: #69a71b;
+  --primary: #ffdd00;
 }
 
 html,
@@ -77,6 +78,10 @@ body {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   word-break: keep-all;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 #root {

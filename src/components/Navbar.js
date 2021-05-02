@@ -159,7 +159,7 @@ function Navbar({ current }) {
           <NavContent>
             <NavMenu>
               {nav_items.map((item) => (
-                <NavItem color={item.color} current={current}>
+                <NavItem key={item.id} color={item.color} current={current}>
                   <Link to={item.link}>{item.txt}</Link>
                 </NavItem>
               ))}
