@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { Form } from "semantic-ui-react";
+import { db } from "../../firebase";
 
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
@@ -121,18 +122,14 @@ function ModalSNS({ visible, setVisible }) {
 
   const [inputs, setInputs] = useState({
     name: "",
-    birth: "",
-    section: "",
     phone: "",
     sns: "",
   });
 
-  const { name, birth, section, phone, sns } = inputs;
+  const { name, phone, sns } = inputs;
 
   const onChange = (e, data) => {
     const { value, name } = data;
-    console.log(value);
-    console.log(name);
     setInputs({
       ...inputs,
       [name]: value,
@@ -142,8 +139,6 @@ function ModalSNS({ visible, setVisible }) {
   const onReset = () => {
     setInputs({
       name: "",
-      birth: "",
-      section: "",
       phone: "",
       sns: "",
     });
@@ -152,8 +147,19 @@ function ModalSNS({ visible, setVisible }) {
 
   const onFin = () => {
     setVisible(0);
+    setProceed(false);
     onReset();
     setStep(1);
+
+    db.collection("sns")
+      .doc(inputs.phone)
+      .set(inputs)
+      .then((docRef) => {
+        console.log(docRef.id);
+      })
+      .catch((e) => {
+        console.error("Error adding document: ", e);
+      });
   };
 
   const [check1, setCheck1] = useState(false);
@@ -166,6 +172,8 @@ function ModalSNS({ visible, setVisible }) {
   useEffect(() => {
     if (check1) {
       setProceed(true);
+    } else {
+      setProceed(false);
     }
   }, [check1]);
 

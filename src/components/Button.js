@@ -74,7 +74,22 @@ const StyledButton = styled.button`
       font-size: 1.5rem;
       position: fixed;
       top: calc(50% + 120px);
-      right: calc(50% - 590px);
+      right: calc(50% - 600px);
+      z-index: 100;
+    `}
+
+  ${(props) =>
+    props.float2 &&
+    css`
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      width: 170px;
+      height: 120px;
+      border-radius: 20px;
+      padding: 20px;
+      font-size: 1.5rem;
+      position: fixed;
+      top: calc(50% - 20px);
+      right: calc(50% - 600px);
       z-index: 100;
     `}
 `;

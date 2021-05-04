@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { Form, Button } from "semantic-ui-react";
+import { db } from "../../firebase";
 
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
@@ -120,7 +121,6 @@ function ModalPhoto({ visible, setVisible }) {
   const [inputs, setInputs] = useState({
     name: "",
     birth: "",
-    section: "",
     phone: "",
     title: "",
   });
@@ -129,8 +129,6 @@ function ModalPhoto({ visible, setVisible }) {
 
   const onChange = (e, data) => {
     const { value, name } = data;
-    console.log(value);
-    console.log(name);
     setInputs({
       ...inputs,
       [name]: value,
@@ -152,10 +150,7 @@ function ModalPhoto({ visible, setVisible }) {
       name: "",
       birth: "",
       phone: "",
-      addr: "",
       title: "",
-      file1: "",
-      file2: "",
     });
     setCheck1(false);
     setCheck2(false);
@@ -165,6 +160,15 @@ function ModalPhoto({ visible, setVisible }) {
     setVisible(0);
     onReset();
     setStep(1);
+    setProceed(false);
+
+    db.collection("photo")
+      .doc(inputs.phone)
+      .set(inputs)
+      .then(() => {})
+      .catch((e) => {
+        console.error("Error adding document: ", e);
+      });
   };
 
   const [check1, setCheck1] = useState(false);
@@ -181,6 +185,8 @@ function ModalPhoto({ visible, setVisible }) {
   useEffect(() => {
     if (check1 && check2) {
       setProceed(true);
+    } else {
+      setProceed(false);
     }
   }, [check1, check2]);
 

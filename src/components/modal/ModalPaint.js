@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { Form } from "semantic-ui-react";
+import { db } from "../../firebase";
 
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
@@ -109,7 +110,7 @@ const CheckCircle = styled.div`
 `;
 
 const options = [
-  { key: "1", text: "유아", value: "유야" },
+  { key: "1", text: "유아", value: "유아" },
   { key: "2", text: "초등저", value: "초등저" },
   { key: "3", text: "초등고", value: "초등고" },
 ];
@@ -130,8 +131,6 @@ function ModalPaint({ visible, setVisible }) {
 
   const onChange = (e, data) => {
     const { value, name } = data;
-    console.log(value);
-    console.log(name);
     setInputs({
       ...inputs,
       [name]: value,
@@ -155,6 +154,15 @@ function ModalPaint({ visible, setVisible }) {
     setVisible(0);
     onReset();
     setStep(1);
+    setProceed(false);
+
+    db.collection("paint")
+      .doc(inputs.phone)
+      .set(inputs)
+      .then(() => {})
+      .catch((e) => {
+        console.error("Error adding document: ", e);
+      });
   };
 
   const [check1, setCheck1] = useState(false);
@@ -171,6 +179,8 @@ function ModalPaint({ visible, setVisible }) {
   useEffect(() => {
     if (check1 && check2) {
       setProceed(true);
+    } else {
+      setProceed(false);
     }
   }, [check1, check2]);
 

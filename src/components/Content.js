@@ -11,12 +11,41 @@ import web_program from "../img/web_program.jpg";
 import web_event from "../img/web_event.jpg";
 import video from "../img/video.svg";
 import banana from "../img/banana.svg";
+import banana2 from "../img/banana2.svg";
 import curtain from "../img/curtain.svg";
+import curtainTop from "../img/curtain-top.svg";
+import curtainLeft from "../img/curtain-left.svg";
+import curtainRight from "../img/curtain-right.svg";
 import thumbnail1 from "../img/thumbnail1";
 import thumbnail2 from "../img/thumbnail2";
 
 const ContentWrapper = styled.div`
   width: 100%;
+  position: relative;
+  ${(props) =>
+    props.theater &&
+    css`
+      padding-top: 150px;
+      background-color: rgba(0, 0, 0, 0.8);
+    `}
+  .curtain {
+    position: absolute;
+  }
+  .curtain-top {
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+  .curtain-left {
+    width: 350px;
+    top: 0;
+    left: 0;
+  }
+  .curtain-right {
+    width: 350px;
+    top: 0;
+    right: 0;
+  }
 `;
 const SubMenuBlock = styled.div`
   width: 100%;
@@ -101,11 +130,16 @@ const VideoImg = styled.div`
 `;
 
 const ThumbnailsBlock = styled.div`
-  width: 100%;
   padding: 20px 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  padding-top: 70px;
 `;
 
 const ThumbnailItem = styled.div`
@@ -288,13 +322,19 @@ function Content({ setModal, pagename }) {
 
   const bananaStyle = {
     position: "absolute",
-    top: "-140px",
-    height: "120px",
+    top: "-190px",
+    height: "170px",
+  };
+
+  const bananaStyle2 = {
+    position: "absolute",
+    top: "-190px",
+    height: "170px",
   };
 
   const opts = {
-    height: "600",
-    width: "1000",
+    height: "500",
+    width: "800",
     playerVars: {
       autoplay: false,
     },
@@ -326,9 +366,13 @@ function Content({ setModal, pagename }) {
     setPlay(false);
   };
 
+  const eventClick = () => {
+    window.location.href = "/sub/theater";
+  };
+
   return (
-    <ContentWrapper>
-      {items.length !== 1 && (
+    <ContentWrapper theater={pagename === "theater" ? true : false}>
+      {pagename === "contest" && (
         <SubMenuBlock>
           {items.map((item) => (
             <SubMenuItem
@@ -341,6 +385,19 @@ function Content({ setModal, pagename }) {
           ))}
         </SubMenuBlock>
       )}
+      {pagename === "theater" && (
+        <>
+          <div className="curtain curtain-left">
+            <img src={curtainLeft} />
+          </div>
+          <div className="curtain curtain-right">
+            <img src={curtainRight} />
+          </div>
+          <div className="curtain curtain-top">
+            <img src={curtainTop} />
+          </div>
+        </>
+      )}
 
       <Container img content>
         {items.map((item) => (
@@ -348,19 +405,16 @@ function Content({ setModal, pagename }) {
             <div className="contentTxt">{item.txt}</div>
             <img src={item.img} />
             {item.video && pagename === "theater" && (
-              <>
-                <VideoImg>
-                  <img src={item.thumbnail} />
-                  <div className="playbtn" onClick={onPlay}>
-                    감상하기
-                  </div>
-                </VideoImg>
-                <Theater play={play} onClick={onClose}>
-                  <img className="curtain1" src={curtain} />
-                  <YouTube videoId={item.video} opts={opts} onEnd={onClose} />
-                  <img className="curtain2" src={curtain} />
-                </Theater>
-              </>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <YouTube videoId={item.video} opts={opts} onEnd={onClose} />
+              </div>
             )}
             {item.video && pagename === "support" && (
               <div
@@ -375,12 +429,20 @@ function Content({ setModal, pagename }) {
               </div>
             )}
             {item.button && (
-              <Button onClick={item.onClick} color="#6AB32D" float>
-                {pagename === "theater" && (
-                  <img style={bananaStyle} src={banana} />
+              <>
+                {pagename === "event" && (
+                  <Button onClick={eventClick} color="#F7B855" float2>
+                    <img style={bananaStyle2} src={banana2} />
+                    SNS 인증 이벤트 참여
+                  </Button>
                 )}
-                {item.buttontxt}
-              </Button>
+                <Button onClick={item.onClick} color="#6AB32D" float>
+                  {pagename === "theater" && (
+                    <img style={bananaStyle} src={banana} />
+                  )}
+                  {item.buttontxt}
+                </Button>
+              </>
             )}
           </ContentBlock>
         ))}

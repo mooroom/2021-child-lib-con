@@ -3,6 +3,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 const ContainerBlock = styled.div`
+  position: relative;
   width: 100%;
   max-width: 1140px;
   margin: auto;
