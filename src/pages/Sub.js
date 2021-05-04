@@ -7,10 +7,13 @@ import Content from "../components/Content";
 import Container from "../components/Container";
 
 import Modal from "../components/modal/Modal";
+import ModalPaint from "../components/modal/ModalPaint";
+import ModalPhoto from "../components/modal/ModalPhoto";
+import ModalSNS from "../components/modal/ModalSNS";
 
 import bannerimg from "../img/banner.svg";
 import logo_lib from "../img/logo_lib.svg";
-import title3 from "../img/title3.svg";
+import title from "../img/title.svg";
 
 const FooterBlock = styled.footer`
   width: 100%;
@@ -34,8 +37,11 @@ const FooterCon = styled.div`
 
 function Sub({ match }) {
   const { pagename } = match.params;
+  useEffect(() => {
+    console.log(pagename);
+  });
 
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(0);
 
   return (
     <>
@@ -45,12 +51,14 @@ function Sub({ match }) {
       <FooterBlock>
         <Container>
           <FooterCon>
-            <img src={title3} />
+            <img src={title} style={{ height: "60px" }} />
             <img src={logo_lib} />
           </FooterCon>
         </Container>
       </FooterBlock>
-      <Modal pagename={pagename} visible={modal} setVisible={setModal} />
+      <ModalPaint pagename={pagename} visible={modal} setVisible={setModal} />
+      <ModalPhoto pagename={pagename} visible={modal} setVisible={setModal} />
+      <ModalSNS pagename={pagename} visible={modal} setVisible={setModal} />
     </>
   );
 }

@@ -68,6 +68,7 @@
   --mon4: #e64c29;
   --mon5: #69a71b;
   --primary: #ffdd00;
+  --primary2: #e7c800;
 }
 
 html,
@@ -78,6 +79,7 @@ body {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   word-break: keep-all;
+  /* max-width: 1400px; */
 }
 
 body::-webkit-scrollbar {
@@ -86,6 +88,8 @@ body::-webkit-scrollbar {
 
 #root {
   height: 100%;
+  /* width: 100vw; */
+  /* min-width: 1140px; */
 }
 
 a {

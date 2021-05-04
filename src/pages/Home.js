@@ -165,9 +165,9 @@ const LogoCon = styled.div`
   width: 100%;
   text-align: center;
   img {
-    height: 35px;
+    height: 50px;
   }
-  margin-top: 4rem;
+  margin-top: 5rem;
 `;
 
 function Home(props) {

@@ -11,6 +11,12 @@ const ContainerBlock = styled.div`
     css`
       height: 100%;
     `}
+
+  ${(props) =>
+    props.content &&
+    css`
+      padding-bottom: 100px;
+    `}
 `;
 
 const Inner = styled.div`
@@ -42,9 +48,9 @@ const Inner = styled.div`
     `}
 `;
 
-function Container({ children, flex, img }) {
+function Container({ children, flex, img, content }) {
   return (
-    <ContainerBlock flex={flex}>
+    <ContainerBlock flex={flex} content={content}>
       <Inner flex={flex} img={img}>
         {children}
       </Inner>

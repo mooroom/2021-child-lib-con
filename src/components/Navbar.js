@@ -35,7 +35,7 @@ const NavLogoContainer = styled.div`
   margin-right: 24px;
 
   img {
-    height: 20px;
+    height: 30px;
   }
 `;
 
@@ -62,7 +62,7 @@ const NavItem = styled.li`
 
   a {
     padding: 12px 10px;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: bold;
     line-height: 20px;
     border-radius: 8px;

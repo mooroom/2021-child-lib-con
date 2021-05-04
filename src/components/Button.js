@@ -62,11 +62,26 @@ const StyledButton = styled.button`
   & + & {
     margin-left: 1rem;
   }
+
+  ${(props) =>
+    props.float &&
+    css`
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      width: 170px;
+      height: 120px;
+      border-radius: 20px;
+      padding: 20px;
+      font-size: 1.5rem;
+      position: fixed;
+      top: calc(50% + 120px);
+      right: calc(50% - 590px);
+      z-index: 100;
+    `}
 `;
 
-function Button({ children, onClick, width, ...rest }) {
+function Button({ children, onClick, width, float, ...rest }) {
   return (
-    <StyledButton {...rest} onClick={onClick} width={width}>
+    <StyledButton {...rest} onClick={onClick} width={width} float={float}>
       {children}
     </StyledButton>
   );

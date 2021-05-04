@@ -30,7 +30,7 @@ const SquareBlock = styled.div`
   .txt {
     color: var(--grey900);
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
 
   .subtxt {
@@ -38,6 +38,8 @@ const SquareBlock = styled.div`
     opacity: 0;
     color: white;
     font-weight: bold;
+    font-size: 1.3rem;
+    line-height: 1.5;
   }
 
   transition: 0.25s ease-in;

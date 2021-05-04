@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
+import YouTube from "react-youtube";
 
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -9,6 +10,10 @@ import web_contest2 from "../img/web_contest2.jpg";
 import web_program from "../img/web_program.jpg";
 import web_event from "../img/web_event.jpg";
 import video from "../img/video.svg";
+import banana from "../img/banana.svg";
+import curtain from "../img/curtain.svg";
+import thumbnail1 from "../img/thumbnail1";
+import thumbnail2 from "../img/thumbnail2";
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -24,16 +29,18 @@ const SubMenuBlock = styled.div`
 `;
 
 const SubMenuItem = styled.div`
-  color: var(--grey700);
+  color: rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   border-radius: 50px;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
   ${(props) =>
     props.active &&
     css`
       color: white;
-      background-color: var(--grey500);
+      background-color: var(--primary);
       font-weight: bold;
+      border: none;
     `}
 
   & + & {
@@ -66,6 +73,97 @@ const ButtonCon = styled.div`
   justify-content: center;
 `;
 
+const VideoImg = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  img {
+    width: 100%;
+  }
+  .playbtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 10px;
+  }
+`;
+
+const ThumbnailsBlock = styled.div`
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const ThumbnailItem = styled.div`
+  & + & {
+    margin-left: 10px;
+  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 10px;
+  img {
+    width: 150px;
+  }
+  ${(props) =>
+    props.active &&
+    css`
+      border: 2px solid var(--primary);
+    `}
+`;
+
+const Theater = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 101;
+  background: rgba(0, 0, 0, 0.8);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.25s ease-in;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+    width: initial;
+    height: 100%;
+    transition: 0.5s ease-in;
+    transition-delay: 0.25s;
+  }
+
+  ${(props) =>
+    props.play &&
+    css`
+      visibility: visible;
+      opacity: 1;
+      .curtain1 {
+        transform: translateX(-150px);
+      }
+      .curtain2 {
+        transform: translateX(150px);
+      }
+    `}
+`;
+
 function Content({ setModal, pagename }) {
   const contentData = {
     support: [
@@ -73,8 +171,9 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "응원영상",
-        txt: "어린이가 행복한 세상을 만들어요!",
-        img: video,
+        // txt: "어린이가 행복한 세상을 만들어요!",
+        // img: video,
+        video: "QMVL4HL_3Ac",
         button: false,
       },
     ],
@@ -83,21 +182,27 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "색깔의 비밀",
-        txt: "그림책 작가와 떠나는 신나는 이야기 여행!",
-        img: video,
+        // txt: "<색깔의 비밀> 차재혁, 최은영 작가",
+        // img: video,
+        video: "D-7uGQPN6Yw",
+        videoImg: thumbnail1,
+        thumbnail: thumbnail1,
         button: true,
         buttontxt: "SNS 인증 이벤트 참여",
-        onClick: () => setModal(true),
+        onClick: () => setModal(1),
       },
       {
         id: 2,
         active: false,
-        title: "생각하는 호랑이 바라",
-        txt: "그림책 작가와 떠나는 신나는 이야기 여행!",
-        img: video,
+        title: "채식하는 호랑이 바라",
+        // txt: "<채식하는 호랑이 바라> 김국희 작가 참여",
+        // img: video,
+        video: "eaWjKip7Rxo",
+        videoImg: thumbnail2,
+        thumbnail: thumbnail2,
         button: true,
         buttontxt: "SNS 인증 이벤트 참여",
-        onClick: () => setModal(true),
+        onClick: () => setModal(2),
       },
     ],
     contest: [
@@ -105,21 +210,21 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "독서감상 그리기 대회",
-        txt: "책을 읽은 후 여러분의 감상을 그림으로 표현해 봐요!",
+        // txt: "책을 읽은 후 여러분의 감상을 그림으로 표현해 봐요!",
         img: web_contest1,
         button: true,
-        buttontxt: "접수하기",
-        onClick: () => setModal(true),
+        buttontxt: "그리기 대회 접수하기",
+        onClick: () => setModal(3),
       },
       {
         id: 2,
         active: false,
         title: "집콕 책읽기 사진 공모전",
-        txt: "집에 콕 박혀서 하는 독서의 즐거움!",
+        // txt: "집에 콕 박혀서 하는 독서의 즐거움!",
         img: web_contest2,
         button: true,
-        buttontxt: "접수하기",
-        onClick: () => setModal(true),
+        buttontxt: "사진 공모전 접수하기",
+        onClick: () => setModal(4),
       },
     ],
     program: [
@@ -127,13 +232,13 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "미꿈소 뚝딱상자",
-        txt: "미꿈소 뚝딱상자",
+        // txt: "미꿈소 뚝딱상자",
         img: web_program,
-        button: true,
+        button: false,
         buttontxt: "자세히 보기",
         onClick: () => {
           var win = window.open(
-            "https://www.nlcy.go.kr/bbs/30010/bbsDetail.do?idx=1109263",
+            "https://www.nlcy.go.kr/menu/10053/together/40000/togetherList.do",
             "_blank"
           );
           win.focus();
@@ -145,7 +250,7 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "어린이날 방문자 이벤트",
-        txt: "어린이날 방문자 이벤트",
+        // txt: "어린이날 방문자 이벤트",
         img: web_event,
         button: true,
         buttontxt: "사전 예약 신청",
@@ -181,6 +286,46 @@ function Content({ setModal, pagename }) {
     setModal(true);
   };
 
+  const bananaStyle = {
+    position: "absolute",
+    top: "-140px",
+    height: "120px",
+  };
+
+  const opts = {
+    height: "600",
+    width: "1000",
+    playerVars: {
+      autoplay: false,
+    },
+  };
+
+  // const [position, setPosition] = useState(0);
+  // const [scrolled, setScrolled] = useState(false);
+  // const onScroll = () => {
+  //   console.log(window.scrollY);
+  //   if (window.scrollY !== 0) {
+  //     setScrolled(true);
+  //   } else {
+  //     setScrolled(false);
+  //   }
+  //   setPosition(window.scrollY);
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener("scroll", onScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", onScroll);
+  //   };
+  // }, []);
+  const [play, setPlay] = useState(false);
+  const onPlay = () => {
+    setPlay(true);
+  };
+  const onClose = () => {
+    setPlay(false);
+  };
+
   return (
     <ContentWrapper>
       {items.length !== 1 && (
@@ -197,21 +342,62 @@ function Content({ setModal, pagename }) {
         </SubMenuBlock>
       )}
 
-      <Container img>
+      <Container img content>
         {items.map((item) => (
           <ContentBlock id={item.id} active={item.active}>
             <div className="contentTxt">{item.txt}</div>
             <img src={item.img} />
-
-            <ButtonCon>
-              {item.button && (
-                <Button width="100" onClick={item.onClick}>
-                  {item.buttontxt}
-                </Button>
-              )}
-            </ButtonCon>
+            {item.video && pagename === "theater" && (
+              <>
+                <VideoImg>
+                  <img src={item.thumbnail} />
+                  <div className="playbtn" onClick={onPlay}>
+                    감상하기
+                  </div>
+                </VideoImg>
+                <Theater play={play} onClick={onClose}>
+                  <img className="curtain1" src={curtain} />
+                  <YouTube videoId={item.video} opts={opts} onEnd={onClose} />
+                  <img className="curtain2" src={curtain} />
+                </Theater>
+              </>
+            )}
+            {item.video && pagename === "support" && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <YouTube videoId={item.video} opts={opts} />
+              </div>
+            )}
+            {item.button && (
+              <Button onClick={item.onClick} color="#6AB32D" float>
+                {pagename === "theater" && (
+                  <img style={bananaStyle} src={banana} />
+                )}
+                {item.buttontxt}
+              </Button>
+            )}
           </ContentBlock>
         ))}
+
+        {pagename === "theater" && (
+          <ThumbnailsBlock>
+            {items.map((item) => (
+              <ThumbnailItem
+                id={item.id}
+                active={item.active}
+                onClick={() => onClickSubMenu(item.id)}
+              >
+                <img src={item.thumbnail} />
+              </ThumbnailItem>
+            ))}
+          </ThumbnailsBlock>
+        )}
       </Container>
     </ContentWrapper>
   );

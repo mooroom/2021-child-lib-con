@@ -75,6 +75,13 @@ function Modal({ pagename, visible, setVisible }) {
             <>
               <ModalHead image={letter} text="집콕 책읽기 사진 제출" />
               <ModalList>
+                <select>
+                  <option value="americano">아메리카노</option>
+                  <option value="caffe latte">카페라테</option>
+                  <option value="cafe au lait">카페오레</option>
+                  <option value="espresso">에스프레소</option>
+                </select>
+                <ModalInput type="select" />
                 <ModalInput
                   id="1"
                   label="이름"

@@ -29,36 +29,56 @@ const BannerBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  flex-direction: column;
+  font-size: 2.6rem;
+  line-height: 1.7;
   font-weight: bolder;
   color: white;
+
+  .subtxt {
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  .smalltxt {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #b5325a;
+  }
 `;
 
 const bannerData = {
   support: {
     img: banner1,
     bg: "#94e0da",
-    txt: "응원영상",
+    txt: "응 원 영 상",
+    subtxt: "어린이가 행복한 세상을 만들어요!",
   },
   theater: {
     img: banner2,
     bg: "#F5C4C4",
-    txt: "온라인 극장",
+    txt: "온 라 인 극 장",
+    subtxt: "그림책 작가와 떠나는 신나는 이야기 여행!",
+    smalltxt:
+      "『색깔의 비밀』 차재혁, 최은영 작가 | 『채식하는 호랑이 바라』 김국희 작가 참여",
   },
   contest: {
     img: banner3,
     bg: "#BD94E0",
-    txt: "공모전",
+    txt: "공 모 전",
+    subtxt: "자신만의 독서활동으로 그림 및 사진 공모전에 도전해보세요!",
   },
   program: {
     img: banner4,
     bg: "#FF8D8D",
-    txt: "프로그램",
+    txt: "프 로 그 램",
+    subtxt: "나만의 움직이는 자동차를 만들어 봐요",
   },
   event: {
     img: banner5,
     bg: "#B4E094",
-    txt: "이벤트",
+    txt: "이 벤 트",
+    subtxt: "도서관 방문 어린이를 위한 선물을 준비했어요!",
   },
 };
 
@@ -68,6 +88,8 @@ function Banner({ pagename }) {
     <BannerBlock>
       <BannerBackground bg={page.bg} img={page.img}>
         {page.txt}
+        {page.subtxt && <div className="subtxt">{page.subtxt}</div>}
+        {page.smalltxt && <div className="smalltxt">{page.smalltxt}</div>}
       </BannerBackground>
     </BannerBlock>
   );
