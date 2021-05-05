@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { Form } from "semantic-ui-react";
-import { db } from "../../firebase";
+import { db, timestamp } from "../../firebase";
 
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
@@ -156,9 +156,11 @@ function ModalPaint({ visible, setVisible }) {
     setStep(1);
     setProceed(false);
 
+    const createdAt = timestamp();
+
     db.collection("paint")
       .doc(inputs.phone)
-      .set(inputs)
+      .set({ ...inputs, createdAt })
       .then(() => {})
       .catch((e) => {
         console.error("Error adding document: ", e);
@@ -177,12 +179,31 @@ function ModalPaint({ visible, setVisible }) {
   };
 
   useEffect(() => {
-    if (check1 && check2) {
+    let num = phone.toString();
+    let numdigit = num.length;
+    let isLegalDigit = numdigit === 11 || numdigit === 10;
+
+    let bir = birth.toString();
+    let birdigit = bir.length;
+    let isLegalBirDigit = birdigit === 8;
+
+    if (
+      check1 &&
+      check2 &&
+      name &&
+      birth &&
+      section &&
+      phone &&
+      addr &&
+      title &&
+      isLegalDigit &&
+      isLegalBirDigit
+    ) {
       setProceed(true);
     } else {
       setProceed(false);
     }
-  }, [check1, check2]);
+  }, [check1, check2, name, birth, section, phone, addr, title]);
 
   return (
     <>
@@ -195,6 +216,7 @@ function ModalPaint({ visible, setVisible }) {
                 <Form>
                   <Form.Input
                     fluid
+                    type="text"
                     label="이름"
                     placeholder="이름"
                     name="name"
@@ -203,6 +225,7 @@ function ModalPaint({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
+                    type="number"
                     label="생년월일"
                     placeholder="예: 20020101"
                     name="birth"
@@ -220,6 +243,7 @@ function ModalPaint({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
+                    type="number"
                     label="휴대폰"
                     placeholder="숫자만 입력해주세요"
                     name="phone"
@@ -228,6 +252,7 @@ function ModalPaint({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
+                    type="text"
                     label="주소"
                     placeholder="주소를 입력해주세요"
                     name="addr"
@@ -319,6 +344,14 @@ function ModalPaint({ visible, setVisible }) {
                 <br />
                 <br />
                 -방문: 국립어린이청소년도서관 1층 어린이자료실
+                <br />
+                <span style={{ color: "#FE8181", fontWeight: "bold" }}>
+                  *방문 가능 시간: 10:00 ~ 17:00
+                </span>
+                <br />
+                <span style={{ color: "#FE8181", fontWeight: "bold" }}>
+                  *휴관일(매월 둘째주, 넷째주 월요일 / 공휴일)제외
+                </span>
               </div>
               <Button width="100%" color="#FE8181" onClick={() => setStep(3)}>
                 주의사항을 확인하고 제출

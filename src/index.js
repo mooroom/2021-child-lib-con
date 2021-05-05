@@ -4,6 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "semantic-ui-css/semantic.min.css";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+import "react-app-polyfill/ie9";
+import "react-app-polyfill/ie11";
+import "react-app-polyfill/stable";
 
 ReactDOM.render(
   <React.StrictMode>

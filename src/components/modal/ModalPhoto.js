@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { Form, Button } from "semantic-ui-react";
-import { db } from "../../firebase";
+import { db, storage, timestamp } from "../../firebase";
 
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
@@ -110,7 +110,7 @@ const CheckCircle = styled.div`
 `;
 
 const options = [
-  { key: "1", text: "유아", value: "유야" },
+  { key: "1", text: "유아", value: "유아" },
   { key: "2", text: "초등저", value: "초등저" },
   { key: "3", text: "초등고", value: "초등고" },
 ];
@@ -152,24 +152,34 @@ function ModalPhoto({ visible, setVisible }) {
       phone: "",
       title: "",
     });
+    setFile1(null);
+    setFile2(null);
     setCheck1(false);
     setCheck2(false);
   };
 
-  const onFin = () => {
-    setVisible(0);
-    onReset();
-    setStep(1);
-    setProceed(false);
+  const [url1, setUrl1] = useState(null);
+  const [url2, setUrl2] = useState(null);
+  const [error1, setError1] = useState(null);
+  const [error2, setError2] = useState(null);
 
-    db.collection("photo")
-      .doc(inputs.phone)
-      .set(inputs)
-      .then(() => {})
-      .catch((e) => {
-        console.error("Error adding document: ", e);
-      });
-  };
+  useEffect(() => {
+    if (file1) {
+      const storageRef1 = storage.ref(inputs.phone + "_" + inputs.name + "_1");
+      storageRef1.put(file1).on(
+        "state_changed",
+        (snap) => {},
+        (err) => {
+          setError1(err);
+          console.log(err);
+        },
+        async () => {
+          const url = await storageRef1.getDownloadURL();
+          setUrl1(url);
+        }
+      );
+    }
+  }, [file1, inputs]);
 
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
@@ -183,12 +193,65 @@ function ModalPhoto({ visible, setVisible }) {
   };
 
   useEffect(() => {
-    if (check1 && check2) {
+    let num = phone.toString();
+    let numdigit = num.length;
+    let isLegalDigit = numdigit === 11 || numdigit === 10;
+
+    let bir = birth.toString();
+    let birdigit = bir.length;
+    let isLegalBirDigit = birdigit === 8;
+
+    if (
+      check1 &&
+      check2 &&
+      name &&
+      birth &&
+      phone &&
+      title &&
+      isLegalDigit &&
+      isLegalBirDigit &&
+      file1
+    ) {
       setProceed(true);
     } else {
       setProceed(false);
     }
-  }, [check1, check2]);
+  }, [check1, check2, name, birth, phone, title, file1]);
+
+  useEffect(() => {
+    if (file2) {
+      const storageRef2 = storage.ref(inputs.phone + "_" + inputs.name + "_2");
+      storageRef2.put(file2).on(
+        "state_changed",
+        (snap) => {},
+        (err) => {
+          setError2(err);
+          console.log(err);
+        },
+        async () => {
+          const url = await storageRef2.getDownloadURL();
+          setUrl2(url);
+        }
+      );
+    }
+  }, [file2, inputs]);
+
+  const onFin = () => {
+    setVisible(0);
+    onReset();
+    setStep(1);
+    setProceed(false);
+
+    const createdAt = timestamp();
+
+    db.collection("photo")
+      .doc(inputs.phone)
+      .set({ ...inputs, url1, url2, createdAt })
+      .then((docRef) => {})
+      .catch((e) => {
+        console.error("Error adding document: ", e);
+      });
+  };
 
   return (
     <>
@@ -201,6 +264,7 @@ function ModalPhoto({ visible, setVisible }) {
                 <Form>
                   <Form.Input
                     fluid
+                    type="text"
                     label="이름"
                     placeholder="이름"
                     name="name"
@@ -209,6 +273,7 @@ function ModalPhoto({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
+                    type="number"
                     label="생년월일"
                     placeholder="예: 20020101"
                     name="birth"
@@ -217,6 +282,7 @@ function ModalPhoto({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
+                    type="number"
                     label="휴대폰"
                     placeholder="숫자만 입력해주세요"
                     name="phone"
@@ -225,6 +291,7 @@ function ModalPhoto({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
+                    type="text"
                     label="작품명"
                     placeholder="작품명을 입력해주세요"
                     name="title"
@@ -306,6 +373,25 @@ function ModalPhoto({ visible, setVisible }) {
             </>
           )}
           {step === 2 && (
+            <ModalSub type="warn">
+              <img src={icon_warn} />
+              <div className="txt">주의사항</div>
+              <div className="info">
+                <b>접수하시겠습니까?</b>
+                <br />
+                <br />
+                제출된 후에는 수정이 불가합니다.
+              </div>
+              <StyledButton
+                width="100%"
+                color="#FE8181"
+                onClick={() => setStep(3)}
+              >
+                주의사항을 확인하고 제출
+              </StyledButton>
+            </ModalSub>
+          )}
+          {step === 3 && (
             <ModalSub type="complete">
               <img src={icon_check} />
               <div className="txt">제출이 정상적으로 완료되었습니다.</div>

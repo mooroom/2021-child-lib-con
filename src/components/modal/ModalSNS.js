@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { Form } from "semantic-ui-react";
-import { db } from "../../firebase";
+import { db, timestamp } from "../../firebase";
 
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
@@ -151,9 +151,11 @@ function ModalSNS({ visible, setVisible }) {
     onReset();
     setStep(1);
 
+    const createdAt = timestamp();
+
     db.collection("sns")
       .doc(inputs.phone)
-      .set(inputs)
+      .set({ ...inputs, createdAt })
       .then((docRef) => {
         console.log(docRef.id);
       })
@@ -170,12 +172,15 @@ function ModalSNS({ visible, setVisible }) {
   };
 
   useEffect(() => {
-    if (check1) {
+    let num = phone.toString();
+    let numdigit = num.length;
+    let isLegalDigit = numdigit === 11 || numdigit === 10;
+    if (check1 && name && phone && sns && isLegalDigit) {
       setProceed(true);
     } else {
       setProceed(false);
     }
-  }, [check1]);
+  }, [check1, name, phone, sns]);
 
   return (
     <>
@@ -202,7 +207,6 @@ function ModalSNS({ visible, setVisible }) {
                       <br />
                       <b>
                         #국립어린이청소년도서관 #2021어린이날큰잔치 #온라인극장
-                        #색깔의비밀 #생각하는호랑이바라
                       </b>
                       <br />
                       <br />
@@ -214,6 +218,7 @@ function ModalSNS({ visible, setVisible }) {
                 <Form>
                   <Form.Input
                     fluid
+                    type="text"
                     label="이름"
                     placeholder="이름"
                     name="name"
@@ -222,6 +227,7 @@ function ModalSNS({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
+                    type="number"
                     label="휴대폰"
                     placeholder="숫자만 입력해주세요"
                     name="phone"
@@ -230,6 +236,7 @@ function ModalSNS({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
+                    type="text"
                     label="SNS 업로드 주소"
                     placeholder="공개 계정을 입력해주세요(비공개 시, 심사제외)"
                     name="sns"

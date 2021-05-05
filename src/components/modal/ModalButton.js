@@ -25,6 +25,8 @@ function ModalButton({ setVisible, setStep, proceed, sns }) {
   const onProceed = () => {
     if (proceed) {
       setStep((step) => step + 1);
+    } else {
+      window.alert("제출 양식을 다시 확인해주세요!");
     }
   };
   return (
