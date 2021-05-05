@@ -76,6 +76,11 @@ const StyledButton = styled.button`
       top: calc(50% + 120px);
       right: calc(50% - 600px);
       z-index: 100;
+      @media only screen and (max-width: 768px) {
+        top: initial;
+        right: 30px;
+        bottom: 30px;
+      }
     `}
 
   ${(props) =>

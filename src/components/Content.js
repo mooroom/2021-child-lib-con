@@ -411,6 +411,7 @@ function Content({ setModal, pagename }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  overflow: "hidden",
                 }}
               >
                 <YouTube videoId={item.video} opts={opts} onEnd={onClose} />
