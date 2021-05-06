@@ -61,6 +61,9 @@ const StyledButton = styled.button`
 
   & + & {
     margin-left: 1rem;
+    @media (max-width: 767.98px) {
+      margin-left: 0;
+    }
   }
 
   ${(props) =>
@@ -78,8 +81,17 @@ const StyledButton = styled.button`
       z-index: 100;
       @media only screen and (max-width: 768px) {
         top: initial;
-        right: 30px;
-        bottom: 30px;
+        right: initial;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 0;
+        padding: 30px;
+        height: initial;
+
+        img {
+          display: none;
+        }
       }
     `}
 

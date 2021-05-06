@@ -18,6 +18,9 @@ import title from "../img/title.svg";
 const FooterBlock = styled.footer`
   width: 100%;
   background-color: var(--grey100);
+  @media (max-width: 767.98px) {
+    display: none;
+  }
 `;
 
 const FooterCon = styled.div`
@@ -32,6 +35,13 @@ const FooterCon = styled.div`
 
   img + img {
     margin-left: 50px;
+  }
+
+  @media (max-width: 767.98px) {
+    padding: 40px 0;
+    img {
+      height: 30px;
+    }
   }
 `;
 

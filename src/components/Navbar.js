@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import logo_main from "../img/logo_main.svg";
+import icon_menu from "../img/icon_menu.svg";
+import icon_close from "../img/icon_close.svg";
 
 const NavbarBlock = styled.nav`
   position: fixed;
@@ -37,6 +39,12 @@ const NavLogoContainer = styled.div`
   img {
     height: 30px;
   }
+
+  @media (max-width: 767.98px) {
+    img {
+      height: 20px;
+    }
+  }
 `;
 
 const NavContent = styled.div`
@@ -44,6 +52,21 @@ const NavContent = styled.div`
   max-height: 100%;
   justify-content: space-between;
   transition: 0.2s ease;
+  @media (max-width: 767.98px) {
+    display: none;
+    ${(props) =>
+      props.activeMobile &&
+      css`
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        background-color: var(--grey100);
+        width: 100%;
+        height: 300px;
+      `}
+  }
 `;
 
 const NavMenu = styled.ul`
@@ -51,6 +74,11 @@ const NavMenu = styled.ul`
   align-items: center;
   padding: 0;
   margin: 0;
+  @media (max-width: 767.98px) {
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+  }
 `;
 
 const NavItem = styled.li`
@@ -111,6 +139,31 @@ const NavItem = styled.li`
       }
     }}
   }
+
+  @media (max-width: 767.98px) {
+    width: 100%;
+    a {
+      width: 100%;
+      text-align: center;
+    }
+  }
+`;
+
+const MenuBtn = styled.div`
+  cursor: pointer;
+  width: 50px;
+  height: 100%;
+
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  display: none;
+  @media (max-width: 767.98px) {
+    display: flex;
+  }
 `;
 
 const nav_items = [
@@ -147,6 +200,12 @@ const nav_items = [
 ];
 
 function Navbar({ current }) {
+  const [active, setActive] = useState(false);
+
+  const onToggle = () => {
+    setActive(!active);
+  };
+
   return (
     <NavbarBlock>
       <FlexContainer>
@@ -156,15 +215,23 @@ function Navbar({ current }) {
               <img src={logo_main} />
             </Link>
           </NavLogoContainer>
-          <NavContent>
+          <NavContent activeMobile={active}>
             <NavMenu>
               {nav_items.map((item) => (
-                <NavItem key={item.id} color={item.color} current={current}>
+                <NavItem
+                  key={item.id}
+                  color={item.color}
+                  current={current}
+                  onClick={() => setActive(false)}
+                >
                   <Link to={item.link}>{item.txt}</Link>
                 </NavItem>
               ))}
             </NavMenu>
           </NavContent>
+          <MenuBtn onClick={onToggle}>
+            <img src={active ? icon_close : icon_menu} />
+          </MenuBtn>
         </Inner>
       </FlexContainer>
     </NavbarBlock>

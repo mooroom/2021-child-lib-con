@@ -45,6 +45,20 @@ const BannerBackground = styled.div`
     font-weight: 600;
     color: #b5325a;
   }
+
+  @media (max-width: 767.98px) {
+    font-size: 2rem;
+
+    .subtxt {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .smalltxt {
+      font-size: 0.8rem;
+      text-align: center;
+    }
+  }
 `;
 
 const bannerData = {

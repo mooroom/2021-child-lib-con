@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import YouTube from "react-youtube";
+import YoutubeEmbed from "./YoutubeEmbed";
 
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -27,9 +28,16 @@ const ContentWrapper = styled.div`
     css`
       padding-top: 150px;
       background-color: rgba(0, 0, 0, 0.8);
+      @media (max-width: 767.98px) {
+        background-color: white;
+        padding-top: 0;
+      }
     `}
   .curtain {
     position: absolute;
+    @media (max-width: 767.98px) {
+      display: none;
+    }
   }
   .curtain-top {
     width: 100%;
@@ -74,6 +82,10 @@ const SubMenuItem = styled.div`
 
   & + & {
     margin-left: 20px;
+  }
+
+  @media (max-width: 767.98px) {
+    font-size: 0.8rem;
   }
 `;
 
@@ -140,6 +152,16 @@ const ThumbnailsBlock = styled.div`
   left: 0;
   width: 100px;
   padding-top: 70px;
+  @media (max-width: 767.98px) {
+    padding: 20px 0;
+    display: flex;
+    justify-content: initial;
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+    padding-top: 20px;
+    overflow-x: auto;
+  }
 `;
 
 const ThumbnailItem = styled.div`
@@ -404,31 +426,7 @@ function Content({ setModal, pagename }) {
           <ContentBlock id={item.id} active={item.active}>
             <div className="contentTxt">{item.txt}</div>
             <img src={item.img} />
-            {item.video && pagename === "theater" && (
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  overflow: "hidden",
-                }}
-              >
-                <YouTube videoId={item.video} opts={opts} onEnd={onClose} />
-              </div>
-            )}
-            {item.video && pagename === "support" && (
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <YouTube videoId={item.video} opts={opts} />
-              </div>
-            )}
+            {item.video && <YoutubeEmbed embedId={item.video} />}
             {item.button && (
               <>
                 {pagename === "event" && (

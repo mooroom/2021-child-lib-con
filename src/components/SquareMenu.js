@@ -78,11 +78,32 @@ const SquareBlock = styled.div`
       }
     }}
   }
+
+  @media (max-width: 767.98px) {
+    width: 100%;
+    height: initial;
+    margin-top: 20px;
+    padding: 20px;
+
+    .content {
+      flex-direction: row;
+      img {
+        height: 30px;
+        margin-right: 20px;
+      }
+    }
+  }
+`;
+
+const SquareLink = styled(Link)`
+  @media (max-width: 767.98px) {
+    width: 100%;
+  }
 `;
 
 function SquareMenu({ option }) {
   return (
-    <Link to={option.link}>
+    <SquareLink to={option.link}>
       <SquareBlock type={option.type}>
         <div className="content">
           <img src={option.img} />
@@ -90,7 +111,7 @@ function SquareMenu({ option }) {
         </div>
         <div className="subtxt">{option.subtxt}</div>
       </SquareBlock>
-    </Link>
+    </SquareLink>
   );
 }
 

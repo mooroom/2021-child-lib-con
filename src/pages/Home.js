@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { css } from "styled-components";
 import Particles from "react-tsparticles";
 
 import Container from "../components/Container";
@@ -14,6 +14,7 @@ import mon3 from "../img/mon_3.svg";
 import mon4 from "../img/mon_4.svg";
 import mon5 from "../img/mon_5.svg";
 import logo from "../img/logo_lib.svg";
+import { ReactComponent as CloseIcon } from "../img/icon_close.svg";
 
 const options = {
   background: {
@@ -159,6 +160,9 @@ const SubTitleCon = styled.div`
   font-weight: bold;
   color: var(--grey800);
   margin-bottom: 2rem;
+  @media (max-width: 767.98px) {
+    font-size: 1rem;
+  }
 `;
 
 const LogoCon = styled.div`
@@ -168,12 +172,50 @@ const LogoCon = styled.div`
     height: 50px;
   }
   margin-top: 5rem;
+  @media (max-width: 767.98px) {
+    img {
+      height: 30px;
+    }
+    padding-bottom: 50px;
+  }
+`;
+
+const BrowserAlert = styled.div`
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e88f00;
+  .txt {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+  }
+  .close {
+    fill: white;
+    width: 20px;
+  }
+
+  ${(props) =>
+    !props.visible &&
+    css`
+      display: none;
+    `}
 `;
 
 function Home(props) {
+  const [alert, setAlert] = useState(true);
   return (
     <>
       <Particles id="tsparticles" options={options} />
+      <BrowserAlert visible={alert}>
+        <div className="txt">
+          2021 어린이날 도서관 큰 잔치 홈페이지는 IE(인터넷 익스플로러)를 제외한
+          크롬 등 기타 브라우저에 최적화되어 있습니다.
+        </div>
+        <CloseIcon fill="white" onClick={() => setAlert(false)} />
+      </BrowserAlert>
       <Container flex>
         <TitleCon>
           <img src={title} />
