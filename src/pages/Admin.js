@@ -33,7 +33,7 @@ function Admin(props) {
         <Link to="/admin.photo">
           <Button color="#808080">사진공모전</Button>
         </Link>
-        <Link to="/admin.paint">
+        <Link to="/admin.sns">
           <Button color="#808080">SNS 인증 이벤트</Button>
         </Link>
       </AdminLinks>
