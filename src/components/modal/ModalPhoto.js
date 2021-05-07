@@ -165,7 +165,7 @@ function ModalPhoto({ visible, setVisible }) {
 
   useEffect(() => {
     if (file1) {
-      const storageRef1 = storage.ref(inputs.phone + "_" + inputs.name + "_1");
+      const storageRef1 = storage.ref(inputs.name + "_" + inputs.phone + "_1");
       storageRef1.put(file1).on(
         "state_changed",
         (snap) => {},
@@ -220,7 +220,7 @@ function ModalPhoto({ visible, setVisible }) {
 
   useEffect(() => {
     if (file2) {
-      const storageRef2 = storage.ref(inputs.phone + "_" + inputs.name + "_2");
+      const storageRef2 = storage.ref(inputs.name + "_" + inputs.phone + "_2");
       storageRef2.put(file2).on(
         "state_changed",
         (snap) => {},
@@ -245,7 +245,7 @@ function ModalPhoto({ visible, setVisible }) {
     const createdAt = timestamp();
 
     db.collection("photo")
-      .doc(inputs.phone)
+      .doc()
       .set({ ...inputs, url1, url2, createdAt })
       .then((docRef) => {})
       .catch((e) => {

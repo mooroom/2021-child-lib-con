@@ -17,9 +17,10 @@ const CancelButton = styled(Button)`
   flex: 1;
 `;
 
-function ModalButton({ setVisible, setStep, proceed, sns }) {
+function ModalButton({ setVisible, setStep, proceed, onReset, sns }) {
   const onCancel = () => {
     setVisible(false);
+    onReset();
   };
 
   const onProceed = () => {
@@ -31,13 +32,17 @@ function ModalButton({ setVisible, setStep, proceed, sns }) {
   };
   return (
     <ModalButtonBlock>
-      <CancelButton onClick={onCancel} color="#d1d6db">
+      <CancelButton onClick={onCancel} color="#d1d6db" type="button">
         취소
       </CancelButton>
       {sns ? (
-        <SubmitButton onClick={onProceed}>참여하기</SubmitButton>
+        <SubmitButton onClick={onProceed} type="button">
+          참여하기
+        </SubmitButton>
       ) : (
-        <SubmitButton onClick={onProceed}>제출하기</SubmitButton>
+        <SubmitButton onClick={onProceed} type="button">
+          제출하기
+        </SubmitButton>
       )}
     </ModalButtonBlock>
   );

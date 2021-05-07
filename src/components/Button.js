@@ -16,6 +16,12 @@ const StyledButton = styled.button`
   font-size: 1rem;
   font-weight: bold;
 
+  ${(props) =>
+    props.fullwidth &&
+    css`
+      width: 100%;
+    `}
+
   ${(props) => {
     const reactive = props.reactive;
     const activate = props.activate;
@@ -111,9 +117,15 @@ const StyledButton = styled.button`
     `}
 `;
 
-function Button({ children, onClick, width, float, ...rest }) {
+function Button({ children, onClick, width, float, type, ...rest }) {
   return (
-    <StyledButton {...rest} onClick={onClick} width={width} float={float}>
+    <StyledButton
+      {...rest}
+      onClick={onClick}
+      width={width}
+      float={float}
+      type={type}
+    >
       {children}
     </StyledButton>
   );

@@ -9,6 +9,7 @@ import Sub from "./pages/Sub";
 import AdminPaint from "./pages/AdminPaint";
 import AdminPhoto from "./pages/AdminPhoto";
 import AdminSns from "./pages/AdminSns";
+import Admin from "./pages/Admin";
 
 function App() {
   const appHeight = () => {
@@ -25,6 +26,7 @@ function App() {
       <Route path="/admin.paint" component={AdminPaint} />
       <Route path="/admin.photo" component={AdminPhoto} />
       <Route path="/admin.sns" component={AdminSns} />
+      <Route path="/admin" component={Admin} />
     </Router>
   );
 }
