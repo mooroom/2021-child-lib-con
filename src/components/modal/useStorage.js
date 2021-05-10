@@ -43,7 +43,7 @@ const useStorage = (file1, file2, data) => {
       .catch((e) => {
         console.error("Error adding document: ", e);
       });
-  }, [file1, file2, data]);
+  }, [file1, file2, data, url1, url2]);
 
   return { url1, url2, error1, error2 };
 };

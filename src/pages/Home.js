@@ -136,14 +136,6 @@ const menus = [
   },
 ];
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const TitleCon = styled.div`
   width: 100%;
   text-align: center;
@@ -218,7 +210,7 @@ function Home(props) {
       </BrowserAlert>
       <Container flex>
         <TitleCon>
-          <img src={title} />
+          <img src={title} alt="img" />
         </TitleCon>
         <SubTitleCon>
           "어린이가 꿈꾸는 세상, 국립어린이청소년도서관이 응원합니다!"
@@ -229,7 +221,7 @@ function Home(props) {
           ))}
         </SquareContainer>
         <LogoCon>
-          <img src={logo} />
+          <img src={logo} alt="img" />
         </LogoCon>
       </Container>
     </>

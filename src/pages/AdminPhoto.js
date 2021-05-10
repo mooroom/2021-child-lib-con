@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Table } from "semantic-ui-react";
 import { db } from "../firebase";
 import styled from "styled-components";
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
@@ -17,12 +15,14 @@ const TableContainer = styled.div`
 `;
 
 function AdminPhoto(props) {
+  const [datas, setDatas] = useState([]);
+  const [gridApi, setGridApi] = useState(null);
+  const [gridColumnApi, setGridColumnApi] = useState(null);
+
   async function getMarker() {
     const snapshot = await db.collection("photo").get();
     return snapshot.docs.map((doc) => doc.data());
   }
-
-  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     getMarker().then((d) => {
@@ -30,9 +30,24 @@ function AdminPhoto(props) {
     });
   }, []);
 
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
+  };
+
+  const onBtExport = () => {
+    gridApi.exportDataAsCsv();
+  };
+
   return (
     <TableContainer>
       <h1>집콕 책읽기 사진공모전 신청자</h1>
+      <button
+        onClick={() => onBtExport()}
+        style={{ marginBottom: "5px", fontWeight: "bold" }}
+      >
+        엑셀 다운로드
+      </button>
       <div
         className="ag-theme-alpine"
         style={{ height: "100%", width: "100%" }}
@@ -50,7 +65,13 @@ function AdminPhoto(props) {
             filter: true,
             resizable: true,
           }}
+          onGridReady={onGridReady}
         >
+          <AgGridColumn
+            headerName="#"
+            maxWidth={100}
+            valueGetter={(params) => params.node.rowIndex + 1}
+          />
           <AgGridColumn headerName="이름" field="name"></AgGridColumn>
           <AgGridColumn headerName="생년월일" field="birth"></AgGridColumn>
           <AgGridColumn headerName="휴대폰" field="phone"></AgGridColumn>
@@ -67,52 +88,14 @@ function AdminPhoto(props) {
           ></AgGridColumn>
           <AgGridColumn
             headerName="제출시간"
-            field="createdAt"
-            valueFormatter={dateFormatter}
+            valueGetter={(params) =>
+              params.data.createdAt.toDate().toLocaleString("ko-KR")
+            }
           ></AgGridColumn>
         </AgGridReact>
       </div>
-
-      {/* <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>이름</Table.HeaderCell>
-            <Table.HeaderCell>생년월일</Table.HeaderCell>
-            <Table.HeaderCell>휴대폰</Table.HeaderCell>
-            <Table.HeaderCell>작품명</Table.HeaderCell>
-            <Table.HeaderCell>파일첨부1</Table.HeaderCell>
-            <Table.HeaderCell>파일첨부2</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {datas.map((data, index) => (
-            <Table.Row key={index}>
-              <Table.Cell>{data.name}</Table.Cell>
-              <Table.Cell>{data.birth}</Table.Cell>
-              <Table.Cell>{data.phone}</Table.Cell>
-              <Table.Cell>{data.title}</Table.Cell>
-              <Table.Cell>
-                <a href={data.url1} download target="_blank" rel="noreferrer">
-                  <img
-                    src={data.url1}
-                    width="50px"
-                    height="50px"
-                    alt="thumbnail"
-                  />
-                </a>
-              </Table.Cell>
-              <Table.Cell>{data.url2}</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table> */}
     </TableContainer>
   );
-}
-
-function dateFormatter(params) {
-  return params.value.toDate().toLocaleString("ko-KR");
 }
 
 export default AdminPhoto;

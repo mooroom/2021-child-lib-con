@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -111,27 +111,27 @@ const NavItem = styled.li`
 
   a {
     ${({ current, color }) => {
-      if (current == "support" && color == "#4fb2ab") {
+      if (current === "support" && color === "#4fb2ab") {
         return css`
           background-color: ${color};
           color: white;
         `;
-      } else if (current == "theater" && color == "#ec898e") {
+      } else if (current === "theater" && color === "#ec898e") {
         return css`
           background-color: ${color};
           color: white;
         `;
-      } else if (current == "contest" && color == "#905b9e") {
+      } else if (current === "contest" && color === "#905b9e") {
         return css`
           background-color: ${color};
           color: white;
         `;
-      } else if (current == "program" && color == "#e64c29") {
+      } else if (current === "program" && color === "#e64c29") {
         return css`
           background-color: ${color};
           color: white;
         `;
-      } else if (current == "event" && color == "#69a71b") {
+      } else if (current === "event" && color === "#69a71b") {
         return css`
           background-color: ${color};
           color: white;
@@ -212,7 +212,7 @@ function Navbar({ current }) {
         <Inner>
           <NavLogoContainer>
             <Link to="/">
-              <img src={logo_main} />
+              <img src={logo_main} alt="img" />
             </Link>
           </NavLogoContainer>
           <NavContent activeMobile={active}>
@@ -230,7 +230,7 @@ function Navbar({ current }) {
             </NavMenu>
           </NavContent>
           <MenuBtn onClick={onToggle}>
-            <img src={active ? icon_close : icon_menu} />
+            <img src={active ? icon_close : icon_menu} alt="img" />
           </MenuBtn>
         </Inner>
       </FlexContainer>

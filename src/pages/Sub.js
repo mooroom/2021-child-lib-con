@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
 
 import Navbar from "../components/Navbar";
 import Banner from "../components/Banner";
 import Content from "../components/Content";
 import Container from "../components/Container";
 
-import Modal from "../components/modal/Modal";
 import ModalPaint from "../components/modal/ModalPaint";
 import ModalPhoto from "../components/modal/ModalPhoto";
 import ModalSNS from "../components/modal/ModalSNS";
 
-import bannerimg from "../img/banner.svg";
 import logo_lib from "../img/logo_lib.svg";
 import title from "../img/title.svg";
 
@@ -47,9 +45,6 @@ const FooterCon = styled.div`
 
 function Sub({ match }) {
   const { pagename } = match.params;
-  useEffect(() => {
-    console.log(pagename);
-  });
 
   const [modal, setModal] = useState(0);
 
@@ -61,8 +56,8 @@ function Sub({ match }) {
       <FooterBlock>
         <Container>
           <FooterCon>
-            <img src={title} style={{ height: "60px" }} />
-            <img src={logo_lib} />
+            <img src={title} style={{ height: "60px" }} alt="img" />
+            <img src={logo_lib} alt="img" />
           </FooterCon>
         </Container>
       </FooterBlock>

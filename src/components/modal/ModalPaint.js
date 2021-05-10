@@ -6,12 +6,27 @@ import { db, timestamp } from "../../firebase";
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
 import ModalList from "./ModalList";
-import ModalButton from "./ModalButton";
 import Button from "../Button";
 
 import letter from "../../img/letter.svg";
 import icon_warn from "../../img/icon_warn.svg";
 import icon_check from "../../img/icon_check.svg";
+
+// button
+const ModalButtonBlock = styled.div`
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const SubmitButton = styled(Button)`
+  flex: 2;
+`;
+
+const CancelButton = styled(Button)`
+  flex: 1;
+`;
+// button
 
 const DarkBackground = styled.div`
   position: fixed;
@@ -116,8 +131,11 @@ const options = [
 ];
 
 function ModalPaint({ visible, setVisible }) {
+  // useState
   const [step, setStep] = useState(1);
-
+  const [check1, setCheck1] = useState(false);
+  const [check2, setCheck2] = useState(false);
+  const [proceed, setProceed] = useState(false);
   const [inputs, setInputs] = useState({
     name: "",
     birth: "",
@@ -129,55 +147,7 @@ function ModalPaint({ visible, setVisible }) {
 
   const { name, birth, section, phone, addr, title } = inputs;
 
-  const onChange = (e, data) => {
-    const { value, name } = data;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-
-  const onReset = () => {
-    setInputs({
-      name: "",
-      birth: "",
-      section: "",
-      phone: "",
-      addr: "",
-      title: "",
-    });
-    setCheck1(false);
-    setCheck2(false);
-  };
-
-  const onFin = () => {
-    setVisible(0);
-    onReset();
-    setStep(1);
-    setProceed(false);
-
-    const createdAt = timestamp();
-
-    db.collection("paint")
-      .doc(inputs.phone)
-      .set({ ...inputs, createdAt })
-      .then(() => {})
-      .catch((e) => {
-        console.error("Error adding document: ", e);
-      });
-  };
-
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
-  const [proceed, setProceed] = useState(false);
-
-  const onToggle1 = () => {
-    setCheck1((check) => !check);
-  };
-  const onToggle2 = () => {
-    setCheck2((check) => !check);
-  };
-
+  // useEffect
   useEffect(() => {
     let num = phone.toString();
     let numdigit = num.length;
@@ -204,6 +174,65 @@ function ModalPaint({ visible, setVisible }) {
       setProceed(false);
     }
   }, [check1, check2, name, birth, section, phone, addr, title]);
+
+  // onClicks
+  const onChange = (e, data) => {
+    const { value, name } = data;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const onToggle1 = () => {
+    setCheck1((check) => !check);
+  };
+  const onToggle2 = () => {
+    setCheck2((check) => !check);
+  };
+
+  const onCancel = () => {
+    setVisible(false);
+    onReset();
+  };
+
+  const onProceed = () => {
+    if (proceed) {
+      setStep((step) => step + 1);
+    } else {
+      window.alert("제출 양식을 다시 확인해주세요!");
+    }
+  };
+
+  const onReset = () => {
+    setInputs({
+      name: "",
+      birth: "",
+      section: "",
+      phone: "",
+      addr: "",
+      title: "",
+    });
+    setCheck1(false);
+    setCheck2(false);
+  };
+
+  const onFin = () => {
+    setVisible(0);
+    onReset();
+    setStep(1);
+    setProceed(false);
+
+    const createdAt = timestamp();
+
+    db.collection("paint")
+      .doc()
+      .set({ ...inputs, createdAt })
+      .then(() => {})
+      .catch((e) => {
+        console.error("Error adding document: ", e);
+      });
+  };
 
   return (
     <>
@@ -321,16 +350,19 @@ function ModalPaint({ visible, setVisible }) {
                   </Agreement>
                 </Form>
               </ModalList>
-              <ModalButton
-                setVisible={setVisible}
-                setStep={setStep}
-                proceed={proceed}
-              />
+              <ModalButtonBlock>
+                <CancelButton onClick={onCancel} color="#d1d6db" type="reset">
+                  취소
+                </CancelButton>
+                <SubmitButton onClick={onProceed} type="button">
+                  제출하기
+                </SubmitButton>
+              </ModalButtonBlock>
             </>
           )}
           {step === 2 && (
             <ModalSub type="warn">
-              <img src={icon_warn} />
+              <img src={icon_warn} alt="img" />
               <div className="txt">주의사항</div>
               <div className="info">
                 <b>작품 제출은 우편 제출 및 방문접수로 부탁드립니다.</b>
@@ -360,7 +392,7 @@ function ModalPaint({ visible, setVisible }) {
           )}
           {step === 3 && (
             <ModalSub type="complete">
-              <img src={icon_check} />
+              <img src={icon_check} alt="img" />
               <div className="txt">제출이 정상적으로 완료되었습니다.</div>
               <Button width="100%" color="#5BED88" onClick={onFin}>
                 확인

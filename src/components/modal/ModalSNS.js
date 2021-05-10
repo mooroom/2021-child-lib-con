@@ -6,12 +6,26 @@ import { db, timestamp } from "../../firebase";
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
 import ModalList from "./ModalList";
-import ModalButton from "./ModalButton";
 import Button from "../Button";
 
 import letter from "../../img/letter.svg";
-import icon_warn from "../../img/icon_warn.svg";
 import icon_check from "../../img/icon_check.svg";
+
+// button
+const ModalButtonBlock = styled.div`
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const SubmitButton = styled(Button)`
+  flex: 2;
+`;
+
+const CancelButton = styled(Button)`
+  flex: 1;
+`;
+// button
 
 const DarkBackground = styled.div`
   position: fixed;
@@ -111,15 +125,10 @@ const CheckCircle = styled.div`
     `}
 `;
 
-const options = [
-  { key: "1", text: "유아", value: "유야" },
-  { key: "2", text: "초등저", value: "초등저" },
-  { key: "3", text: "초등고", value: "초등고" },
-];
-
 function ModalSNS({ visible, setVisible }) {
   const [step, setStep] = useState(1);
-
+  const [check1, setCheck1] = useState(false);
+  const [proceed, setProceed] = useState(false);
   const [inputs, setInputs] = useState({
     name: "",
     phone: "",
@@ -128,12 +137,40 @@ function ModalSNS({ visible, setVisible }) {
 
   const { name, phone, sns } = inputs;
 
+  useEffect(() => {
+    let num = phone.toString();
+    let numdigit = num.length;
+    let isLegalDigit = numdigit === 11 || numdigit === 10;
+    if (check1 && name && phone && sns && isLegalDigit) {
+      setProceed(true);
+    } else {
+      setProceed(false);
+    }
+  }, [check1, name, phone, sns]);
+
   const onChange = (e, data) => {
     const { value, name } = data;
     setInputs({
       ...inputs,
       [name]: value,
     });
+  };
+
+  const onToggle1 = () => {
+    setCheck1((check) => !check);
+  };
+
+  const onCancel = () => {
+    setVisible(false);
+    onReset();
+  };
+
+  const onProceed = () => {
+    if (proceed) {
+      setStep((step) => step + 1);
+    } else {
+      window.alert("제출 양식을 다시 확인해주세요!");
+    }
   };
 
   const onReset = () => {
@@ -156,31 +193,11 @@ function ModalSNS({ visible, setVisible }) {
     db.collection("sns")
       .doc(inputs.phone)
       .set({ ...inputs, createdAt })
-      .then((docRef) => {
-        console.log(docRef.id);
-      })
+      .then(() => {})
       .catch((e) => {
         console.error("Error adding document: ", e);
       });
   };
-
-  const [check1, setCheck1] = useState(false);
-  const [proceed, setProceed] = useState(false);
-
-  const onToggle1 = () => {
-    setCheck1((check) => !check);
-  };
-
-  useEffect(() => {
-    let num = phone.toString();
-    let numdigit = num.length;
-    let isLegalDigit = numdigit === 11 || numdigit === 10;
-    if (check1 && name && phone && sns && isLegalDigit) {
-      setProceed(true);
-    } else {
-      setProceed(false);
-    }
-  }, [check1, name, phone, sns]);
 
   return (
     <>
@@ -280,17 +297,19 @@ function ModalSNS({ visible, setVisible }) {
                   </Agreement>
                 </Form>
               </ModalList>
-              <ModalButton
-                setVisible={setVisible}
-                setStep={setStep}
-                proceed={proceed}
-                sns
-              />
+              <ModalButtonBlock>
+                <CancelButton onClick={onCancel} color="#d1d6db" type="reset">
+                  취소
+                </CancelButton>
+                <SubmitButton onClick={onProceed} type="button">
+                  제출하기
+                </SubmitButton>
+              </ModalButtonBlock>
             </>
           )}
           {step === 2 && (
             <ModalSub type="complete">
-              <img src={icon_check} />
+              <img src={icon_check} alt="img" />
               <div className="txt">제출이 정상적으로 완료되었습니다.</div>
               <Button width="100%" color="#5BED88" onClick={onFin}>
                 확인

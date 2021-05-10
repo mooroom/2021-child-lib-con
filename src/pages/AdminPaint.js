@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "semantic-ui-react";
 import { db } from "../firebase";
 import styled from "styled-components";
 
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
-
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
@@ -16,12 +14,14 @@ const TableContainer = styled.div`
 `;
 
 function AdminPaint(props) {
+  const [datas, setDatas] = useState([]);
+  const [gridApi, setGridApi] = useState(null);
+  const [gridColumnApi, setGridColumnApi] = useState(null);
+
   async function getMarker() {
     const snapshot = await db.collection("paint").get();
     return snapshot.docs.map((doc) => doc.data());
   }
-
-  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     getMarker().then((d) => {
@@ -29,9 +29,24 @@ function AdminPaint(props) {
     });
   }, []);
 
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
+  };
+
+  const onBtExport = () => {
+    gridApi.exportDataAsCsv();
+  };
+
   return (
     <TableContainer>
       <h1>독서감상그리기 대회 신청자</h1>
+      <button
+        onClick={() => onBtExport()}
+        style={{ marginBottom: "5px", fontWeight: "bold" }}
+      >
+        엑셀 다운로드
+      </button>
       <div
         className="ag-theme-alpine"
         style={{ height: "100%", width: "100%" }}
@@ -46,7 +61,13 @@ function AdminPaint(props) {
             filter: true,
             resizable: true,
           }}
+          onGridReady={onGridReady}
         >
+          <AgGridColumn
+            headerName="#"
+            maxWidth={100}
+            valueGetter={(params) => params.node.rowIndex + 1}
+          />
           <AgGridColumn headerName="이름" field="name"></AgGridColumn>
           <AgGridColumn headerName="생년월일" field="birth"></AgGridColumn>
           <AgGridColumn headerName="대상구분" field="section"></AgGridColumn>
@@ -58,17 +79,14 @@ function AdminPaint(props) {
           ></AgGridColumn>
           <AgGridColumn
             headerName="제출시간"
-            field="createdAt"
-            valueFormatter={dateFormatter}
+            valueGetter={(params) =>
+              params.data.createdAt.toDate().toLocaleString("ko-KR")
+            }
           ></AgGridColumn>
         </AgGridReact>
       </div>
     </TableContainer>
   );
-}
-
-function dateFormatter(params) {
-  return params.value.toDate().toLocaleString("ko-KR");
 }
 
 export default AdminPaint;

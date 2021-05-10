@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "semantic-ui-react";
 import { db } from "../firebase";
 import styled from "styled-components";
 
@@ -16,12 +15,14 @@ const TableContainer = styled.div`
 `;
 
 function AdminSns(props) {
+  const [datas, setDatas] = useState([]);
+  const [gridApi, setGridApi] = useState(null);
+  const [gridColumnApi, setGridColumnApi] = useState(null);
+
   async function getMarker() {
     const snapshot = await db.collection("sns").get();
     return snapshot.docs.map((doc) => doc.data());
   }
-
-  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     getMarker().then((d) => {
@@ -29,9 +30,24 @@ function AdminSns(props) {
     });
   }, []);
 
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
+  };
+
+  const onBtExport = () => {
+    gridApi.exportDataAsCsv();
+  };
+
   return (
     <TableContainer>
       <h1>SNS 이벤트 신청자</h1>
+      <button
+        onClick={() => onBtExport()}
+        style={{ marginBottom: "5px", fontWeight: "bold" }}
+      >
+        엑셀 다운로드
+      </button>
       <div
         className="ag-theme-alpine"
         style={{ height: "100%", width: "100%" }}
@@ -46,23 +62,26 @@ function AdminSns(props) {
             filter: true,
             resizable: true,
           }}
+          onGridReady={onGridReady}
         >
+          <AgGridColumn
+            headerName="#"
+            maxWidth={100}
+            valueGetter={(params) => params.node.rowIndex + 1}
+          />
           <AgGridColumn headerName="이름" field="name"></AgGridColumn>
           <AgGridColumn headerName="휴대폰" field="phone"></AgGridColumn>
           <AgGridColumn headerName="sns주소" field="sns"></AgGridColumn>
           <AgGridColumn
             headerName="제출시간"
-            field="createdAt"
-            valueFormatter={dateFormatter}
+            valueGetter={(params) =>
+              params.data.createdAt.toDate().toLocaleString("ko-KR")
+            }
           ></AgGridColumn>
         </AgGridReact>
       </div>
     </TableContainer>
   );
-}
-
-function dateFormatter(params) {
-  return params.value.toDate().toLocaleString("ko-KR");
 }
 
 export default AdminSns;

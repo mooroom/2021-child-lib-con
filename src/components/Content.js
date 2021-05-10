@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import YouTube from "react-youtube";
 import YoutubeEmbed from "./YoutubeEmbed";
 
 import Button from "../components/Button";
@@ -10,10 +9,8 @@ import web_contest1 from "../img/web_contest1.jpg";
 import web_contest2 from "../img/web_contest2.jpg";
 import web_program from "../img/web_program.jpg";
 import web_event from "../img/web_event.jpg";
-import video from "../img/video.svg";
 import banana from "../img/banana.svg";
 import banana2 from "../img/banana2.svg";
-import curtain from "../img/curtain.svg";
 import curtainTop from "../img/curtain-top.svg";
 import curtainLeft from "../img/curtain-left.svg";
 import curtainRight from "../img/curtain-right.svg";
@@ -107,40 +104,6 @@ const ContentBlock = styled.section`
   }
 `;
 
-const ButtonCon = styled.div`
-  width: 100%;
-  padding: 30px 0;
-  display: flex;
-  justify-content: center;
-`;
-
-const VideoImg = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  img {
-    width: 100%;
-  }
-  .playbtn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1.5rem;
-    border-radius: 10px;
-  }
-`;
-
 const ThumbnailsBlock = styled.div`
   padding: 20px 0;
   display: flex;
@@ -183,43 +146,6 @@ const ThumbnailItem = styled.div`
     `}
 `;
 
-const Theater = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 101;
-  background: rgba(0, 0, 0, 0.8);
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.25s ease-in;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  img {
-    width: initial;
-    height: 100%;
-    transition: 0.5s ease-in;
-    transition-delay: 0.25s;
-  }
-
-  ${(props) =>
-    props.play &&
-    css`
-      visibility: visible;
-      opacity: 1;
-      .curtain1 {
-        transform: translateX(-150px);
-      }
-      .curtain2 {
-        transform: translateX(150px);
-      }
-    `}
-`;
-
 function Content({ setModal, pagename }) {
   const contentData = {
     support: [
@@ -227,8 +153,6 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "응원영상",
-        // txt: "어린이가 행복한 세상을 만들어요!",
-        // img: video,
         video: "QMVL4HL_3Ac",
         button: false,
       },
@@ -238,8 +162,6 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "색깔의 비밀",
-        // txt: "<색깔의 비밀> 차재혁, 최은영 작가",
-        // img: video,
         video: "D-7uGQPN6Yw",
         videoImg: thumbnail1,
         thumbnail: thumbnail1,
@@ -251,8 +173,6 @@ function Content({ setModal, pagename }) {
         id: 2,
         active: false,
         title: "채식하는 호랑이 바라",
-        // txt: "<채식하는 호랑이 바라> 김국희 작가 참여",
-        // img: video,
         video: "eaWjKip7Rxo",
         videoImg: thumbnail2,
         thumbnail: thumbnail2,
@@ -266,7 +186,6 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "독서감상 그리기 대회",
-        // txt: "책을 읽은 후 여러분의 감상을 그림으로 표현해 봐요!",
         img: web_contest1,
         button: true,
         buttontxt: "그리기 대회 접수하기",
@@ -276,7 +195,6 @@ function Content({ setModal, pagename }) {
         id: 2,
         active: false,
         title: "집콕 책읽기 사진 공모전",
-        // txt: "집에 콕 박혀서 하는 독서의 즐거움!",
         img: web_contest2,
         button: true,
         buttontxt: "사진 공모전 접수하기",
@@ -288,7 +206,6 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "미꿈소 뚝딱상자",
-        // txt: "미꿈소 뚝딱상자",
         img: web_program,
         button: false,
         buttontxt: "자세히 보기",
@@ -306,7 +223,6 @@ function Content({ setModal, pagename }) {
         id: 1,
         active: true,
         title: "어린이날 방문자 이벤트",
-        // txt: "어린이날 방문자 이벤트",
         img: web_event,
         button: true,
         buttontxt: "사전 예약 신청",
@@ -325,21 +241,15 @@ function Content({ setModal, pagename }) {
 
   useEffect(() => {
     setitems(contentData[pagename]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagename]);
 
   const onClickSubMenu = (id) => {
-    console.log("click");
     setitems(
       items.map((item) =>
         item.id === id ? { ...item, active: true } : { ...item, active: false }
       )
     );
-    console.log(items);
-  };
-
-  const buttonClick = () => {
-    console.log("modal open");
-    setModal(true);
   };
 
   const bananaStyle = {
@@ -352,40 +262,6 @@ function Content({ setModal, pagename }) {
     position: "absolute",
     top: "-190px",
     height: "170px",
-  };
-
-  const opts = {
-    height: "500",
-    width: "800",
-    playerVars: {
-      autoplay: false,
-    },
-  };
-
-  // const [position, setPosition] = useState(0);
-  // const [scrolled, setScrolled] = useState(false);
-  // const onScroll = () => {
-  //   console.log(window.scrollY);
-  //   if (window.scrollY !== 0) {
-  //     setScrolled(true);
-  //   } else {
-  //     setScrolled(false);
-  //   }
-  //   setPosition(window.scrollY);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", onScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", onScroll);
-  //   };
-  // }, []);
-  const [play, setPlay] = useState(false);
-  const onPlay = () => {
-    setPlay(true);
-  };
-  const onClose = () => {
-    setPlay(false);
   };
 
   const eventClick = () => {
@@ -410,13 +286,13 @@ function Content({ setModal, pagename }) {
       {pagename === "theater" && (
         <>
           <div className="curtain curtain-left">
-            <img src={curtainLeft} />
+            <img src={curtainLeft} alt="img" />
           </div>
           <div className="curtain curtain-right">
-            <img src={curtainRight} />
+            <img src={curtainRight} alt="img" />
           </div>
           <div className="curtain curtain-top">
-            <img src={curtainTop} />
+            <img src={curtainTop} alt="img" />
           </div>
         </>
       )}
@@ -425,19 +301,19 @@ function Content({ setModal, pagename }) {
         {items.map((item) => (
           <ContentBlock id={item.id} active={item.active}>
             <div className="contentTxt">{item.txt}</div>
-            <img src={item.img} />
+            {item.img && <img src={item.img} alt="img" />}
             {item.video && <YoutubeEmbed embedId={item.video} />}
             {item.button && (
               <>
                 {pagename === "event" && (
                   <Button onClick={eventClick} color="#F7B855" float2>
-                    <img style={bananaStyle2} src={banana2} />
+                    <img style={bananaStyle2} src={banana2} alt="img" />
                     SNS 인증 이벤트 참여
                   </Button>
                 )}
                 <Button onClick={item.onClick} color="#6AB32D" float>
                   {pagename === "theater" && (
-                    <img style={bananaStyle} src={banana} />
+                    <img style={bananaStyle} src={banana} alt="img" />
                   )}
                   {item.buttontxt}
                 </Button>
@@ -454,7 +330,7 @@ function Content({ setModal, pagename }) {
                 active={item.active}
                 onClick={() => onClickSubMenu(item.id)}
               >
-                <img src={item.thumbnail} />
+                <img src={item.thumbnail} alt="img" />
               </ThumbnailItem>
             ))}
           </ThumbnailsBlock>

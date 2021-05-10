@@ -9,6 +9,7 @@ const Container = styled.div`
 
   @media (max-width: 767.98px) {
     flex-direction: column;
+    justify-content: center;
   }
 `;
 

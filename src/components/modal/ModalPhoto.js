@@ -1,17 +1,32 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { Form, Button } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import { db, storage, timestamp } from "../../firebase";
 
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
 import ModalList from "./ModalList";
-import ModalButton from "./ModalButton";
-import StyledButton from "../Button";
+import Button from "../Button";
 
 import letter from "../../img/letter.svg";
 import icon_warn from "../../img/icon_warn.svg";
 import icon_check from "../../img/icon_check.svg";
+
+// button
+const ModalButtonBlock = styled.div`
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const SubmitButton = styled(Button)`
+  flex: 2;
+`;
+
+const CancelButton = styled(Button)`
+  flex: 1;
+`;
+// button
 
 const DarkBackground = styled.div`
   position: fixed;
@@ -109,12 +124,6 @@ const CheckCircle = styled.div`
     `}
 `;
 
-const options = [
-  { key: "1", text: "유아", value: "유아" },
-  { key: "2", text: "초등저", value: "초등저" },
-  { key: "3", text: "초등고", value: "초등고" },
-];
-
 function ModalPhoto({ visible, setVisible }) {
   const [step, setStep] = useState(1);
 
@@ -123,74 +132,18 @@ function ModalPhoto({ visible, setVisible }) {
     birth: "",
     phone: "",
     title: "",
+    url1: "",
+    url2: "",
   });
-
-  const { name, birth, phone, title } = inputs;
-
-  const onChange = (e, data) => {
-    const { value, name } = data;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
 
   const [file1, setFile1] = useState(null);
   const [file2, setFile2] = useState(null);
-
-  const fileChange1 = (e) => {
-    setFile1(e.target.files[0]);
-  };
-  const fileChange2 = (e) => {
-    setFile2(e.target.files[0]);
-  };
-
-  const onReset = () => {
-    setInputs({
-      name: "",
-      birth: "",
-      phone: "",
-      title: "",
-    });
-    setFile1(null);
-    setFile2(null);
-    setCheck1(false);
-    setCheck2(false);
-  };
-
-  const [url1, setUrl1] = useState(null);
-  const [url2, setUrl2] = useState(null);
-  const [error1, setError1] = useState(null);
-  const [error2, setError2] = useState(null);
-
-  useEffect(() => {
-    if (file1) {
-      const storageRef1 = storage.ref(inputs.name + "_" + inputs.phone + "_1");
-      storageRef1.put(file1).on(
-        "state_changed",
-        (snap) => {},
-        (err) => {
-          setError1(err);
-          console.log(err);
-        },
-        async () => {
-          const url = await storageRef1.getDownloadURL();
-          setUrl1(url);
-        }
-      );
-    }
-  }, [file1, inputs]);
 
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [proceed, setProceed] = useState(false);
 
-  const onToggle1 = () => {
-    setCheck1((check) => !check);
-  };
-  const onToggle2 = () => {
-    setCheck2((check) => !check);
-  };
+  const { name, birth, phone, title } = inputs;
 
   useEffect(() => {
     let num = phone.toString();
@@ -218,23 +171,55 @@ function ModalPhoto({ visible, setVisible }) {
     }
   }, [check1, check2, name, birth, phone, title, file1]);
 
-  useEffect(() => {
-    if (file2) {
-      const storageRef2 = storage.ref(inputs.name + "_" + inputs.phone + "_2");
-      storageRef2.put(file2).on(
-        "state_changed",
-        (snap) => {},
-        (err) => {
-          setError2(err);
-          console.log(err);
-        },
-        async () => {
-          const url = await storageRef2.getDownloadURL();
-          setUrl2(url);
-        }
-      );
+  const onChange = (e, data) => {
+    const { value, name } = data;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const onToggle1 = () => {
+    setCheck1((check) => !check);
+  };
+  const onToggle2 = () => {
+    setCheck2((check) => !check);
+  };
+
+  const fileChange1 = (e) => {
+    setFile1(e.target.files[0]);
+  };
+  const fileChange2 = (e) => {
+    setFile2(e.target.files[0]);
+  };
+
+  const onCancel = () => {
+    setVisible(false);
+    onReset();
+  };
+
+  const onProceed = () => {
+    if (proceed) {
+      setStep((step) => step + 1);
+    } else {
+      window.alert("제출 양식을 다시 확인해주세요!");
     }
-  }, [file2, inputs]);
+  };
+
+  const onReset = () => {
+    setInputs({
+      name: "",
+      birth: "",
+      phone: "",
+      title: "",
+      url1: "",
+      url2: "",
+    });
+    setFile1(null);
+    setFile2(null);
+    setCheck1(false);
+    setCheck2(false);
+  };
 
   const onFin = () => {
     setVisible(0);
@@ -245,9 +230,41 @@ function ModalPhoto({ visible, setVisible }) {
     const createdAt = timestamp();
 
     db.collection("photo")
-      .doc()
-      .set({ ...inputs, url1, url2, createdAt })
-      .then((docRef) => {})
+      .add({ ...inputs, createdAt })
+      .then((docRef) => {
+        if (file1) {
+          const storageRef1 = storage.ref(
+            inputs.name + "_" + inputs.phone + "_1"
+          );
+          storageRef1.put(file1).on(
+            "state_changed",
+            (snap) => {},
+            (err) => {
+              console.log(err);
+            },
+            async () => {
+              const url = await storageRef1.getDownloadURL();
+              docRef.update({ url1: url });
+            }
+          );
+        }
+        if (file2) {
+          const storageRef2 = storage.ref(
+            inputs.name + "_" + inputs.phone + "_2"
+          );
+          storageRef2.put(file2).on(
+            "state_changed",
+            (snap) => {},
+            (err) => {
+              console.log(err);
+            },
+            async () => {
+              const url = await storageRef2.getDownloadURL();
+              docRef.update({ url2: url });
+            }
+          );
+        }
+      })
       .catch((e) => {
         console.error("Error adding document: ", e);
       });
@@ -365,16 +382,19 @@ function ModalPhoto({ visible, setVisible }) {
                   </Agreement>
                 </Form>
               </ModalList>
-              <ModalButton
-                setVisible={setVisible}
-                setStep={setStep}
-                proceed={proceed}
-              />
+              <ModalButtonBlock>
+                <CancelButton onClick={onCancel} color="#d1d6db" type="reset">
+                  취소
+                </CancelButton>
+                <SubmitButton onClick={onProceed} type="button">
+                  제출하기
+                </SubmitButton>
+              </ModalButtonBlock>
             </>
           )}
           {step === 2 && (
             <ModalSub type="warn">
-              <img src={icon_warn} />
+              <img src={icon_warn} alt="img" />
               <div className="txt">주의사항</div>
               <div className="info">
                 <b>접수하시겠습니까?</b>
@@ -382,22 +402,18 @@ function ModalPhoto({ visible, setVisible }) {
                 <br />
                 제출된 후에는 수정이 불가합니다.
               </div>
-              <StyledButton
-                width="100%"
-                color="#FE8181"
-                onClick={() => setStep(3)}
-              >
+              <Button width="100%" color="#FE8181" onClick={() => setStep(3)}>
                 주의사항을 확인하고 제출
-              </StyledButton>
+              </Button>
             </ModalSub>
           )}
           {step === 3 && (
             <ModalSub type="complete">
-              <img src={icon_check} />
+              <img src={icon_check} alt="img" />
               <div className="txt">제출이 정상적으로 완료되었습니다.</div>
-              <StyledButton width="100%" color="#5BED88" onClick={onFin}>
+              <Button width="100%" color="#5BED88" onClick={onFin}>
                 확인
-              </StyledButton>
+              </Button>
             </ModalSub>
           )}
         </ModalTemplate>

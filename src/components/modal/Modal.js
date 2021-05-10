@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 import ModalHead from "./ModalHead";
@@ -113,7 +113,7 @@ function Modal({ pagename, visible, setVisible }) {
           )}
           {step === 2 && (
             <ModalSub type="warn">
-              <img src={icon_warn} />
+              <img src={icon_warn} alt="img" />
               <div className="txt">
                 반드시 아래 주소로
                 <br />
@@ -131,7 +131,7 @@ function Modal({ pagename, visible, setVisible }) {
           )}
           {step === 3 && (
             <ModalSub type="complete">
-              <img src={icon_check} />
+              <img src={icon_check} alt="img" />
               <div className="txt">
                 제출 완료!
                 <br />

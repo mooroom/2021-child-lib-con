@@ -75,15 +75,16 @@ const SquareBlock = styled.div`
           return css`
             background-color: var(--mon5);
           `;
+        default:
       }
     }}
   }
 
   @media (max-width: 767.98px) {
-    width: 100%;
+    width: 99%;
     height: initial;
     margin-top: 20px;
-    padding: 20px;
+    padding: 18px;
 
     .content {
       flex-direction: row;
@@ -106,7 +107,7 @@ function SquareMenu({ option }) {
     <SquareLink to={option.link}>
       <SquareBlock type={option.type}>
         <div className="content">
-          <img src={option.img} />
+          <img src={option.img} alt="img" />
           <div className="txt">{option.txt}</div>
         </div>
         <div className="subtxt">{option.subtxt}</div>

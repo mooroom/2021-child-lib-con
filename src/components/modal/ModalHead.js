@@ -14,7 +14,7 @@ const ModalHeadBlock = styled.div`
 function ModalHead({ image, text }) {
   return (
     <ModalHeadBlock>
-      {image && <img src={image} />}
+      {image && <img src={image} alt="img" />}
       <h1>{text}</h1>
     </ModalHeadBlock>
   );
