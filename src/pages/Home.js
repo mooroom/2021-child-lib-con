@@ -174,13 +174,13 @@ const LogoCon = styled.div`
 
 const BrowserAlert = styled.div`
   width: 100%;
-  padding: 10px;
+  padding: 10px 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #e88f00;
   .txt {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: bold;
     color: white;
   }
@@ -203,8 +203,8 @@ function Home(props) {
       <Particles id="tsparticles" options={options} />
       <BrowserAlert visible={alert}>
         <div className="txt">
-          2021 어린이날 도서관 큰 잔치 홈페이지는 IE(인터넷 익스플로러)를 제외한
-          크롬 등 기타 브라우저에 최적화되어 있습니다.
+          본 홈페이지는 IE(인터넷 익스플로러)를 제외한 크롬 등 기타 브라우저에
+          최적화되어 있습니다.
         </div>
         <CloseIcon fill="white" onClick={() => setAlert(false)} />
       </BrowserAlert>

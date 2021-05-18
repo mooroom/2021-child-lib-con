@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.8.3",
     "ag-grid-community": "^25.2.1",
     "ag-grid-react": "^25.2.0",
+    "axios": "^0.21.1",
     "core-js": "^3.11.2",
     "firebase": "^8.4.2",
     "polished": "^4.1.2",
@@ -30,7 +31,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build  && echo '/* /index.html  200' | cat >build/_redirects ",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

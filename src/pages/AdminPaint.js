@@ -30,8 +30,8 @@ function AdminPaint(props) {
   }, []);
 
   const onGridReady = (params) => {
-    setGridApi(params.api);
-    setGridColumnApi(params.columnApi);
+    // setGridApi(params.api);
+    // setGridColumnApi(params.columnApi);
   };
 
   const onBtExport = () => {
@@ -62,11 +62,12 @@ function AdminPaint(props) {
             resizable: true,
           }}
           onGridReady={onGridReady}
+          applyColumnDefOrder={true}
         >
           <AgGridColumn
-            headerName="#"
-            maxWidth={100}
+            headerName="순번"
             valueGetter={(params) => params.node.rowIndex + 1}
+            maxWidth={100}
           />
           <AgGridColumn headerName="이름" field="name"></AgGridColumn>
           <AgGridColumn headerName="생년월일" field="birth"></AgGridColumn>
@@ -82,6 +83,10 @@ function AdminPaint(props) {
             valueGetter={(params) =>
               params.data.createdAt.toDate().toLocaleString("ko-KR")
             }
+          ></AgGridColumn>
+          <AgGridColumn
+            headerName="시간순정렬(timestamp)"
+            field="createdAt"
           ></AgGridColumn>
         </AgGridReact>
       </div>

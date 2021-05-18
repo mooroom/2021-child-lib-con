@@ -3,6 +3,7 @@ import { db } from "../firebase";
 import styled from "styled-components";
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import ImgCellRenderer from "../cellRederer/imgCellRenderer";
+import DownCellRenderer from "../cellRederer/downCellRenderer";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -55,6 +56,7 @@ function AdminPhoto(props) {
         <AgGridReact
           frameworkComponents={{
             imgCellRenderer: ImgCellRenderer,
+            downCellRenderer: DownCellRenderer,
           }}
           rowData={datas}
           defaultColDef={{
@@ -66,6 +68,7 @@ function AdminPhoto(props) {
             resizable: true,
           }}
           onGridReady={onGridReady}
+          applyColumnDefOrder={true}
         >
           <AgGridColumn
             headerName="#"
@@ -81,6 +84,11 @@ function AdminPhoto(props) {
             field="url1"
             cellRenderer="imgCellRenderer"
           ></AgGridColumn>
+          {/* <AgGridColumn
+            headerName="다운1"
+            field="url1"
+            cellRenderer="downCellRenderer"
+          ></AgGridColumn> */}
           <AgGridColumn
             headerName="파일2"
             field="url2"
@@ -91,6 +99,10 @@ function AdminPhoto(props) {
             valueGetter={(params) =>
               params.data.createdAt.toDate().toLocaleString("ko-KR")
             }
+          ></AgGridColumn>
+          <AgGridColumn
+            headerName="시간순정렬(timestamp)"
+            field="createdAt"
           ></AgGridColumn>
         </AgGridReact>
       </div>

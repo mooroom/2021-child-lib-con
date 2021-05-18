@@ -63,6 +63,7 @@ function AdminSns(props) {
             resizable: true,
           }}
           onGridReady={onGridReady}
+          applyColumnDefOrder={true}
         >
           <AgGridColumn
             headerName="#"
@@ -77,6 +78,10 @@ function AdminSns(props) {
             valueGetter={(params) =>
               params.data.createdAt.toDate().toLocaleString("ko-KR")
             }
+          ></AgGridColumn>
+          <AgGridColumn
+            headerName="시간순정렬(timestamp)"
+            field="createdAt"
           ></AgGridColumn>
         </AgGridReact>
       </div>
