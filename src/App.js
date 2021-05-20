@@ -8,6 +8,9 @@ import AdminPaint from "./pages/AdminPaint";
 import AdminPhoto from "./pages/AdminPhoto";
 import AdminSns from "./pages/AdminSns";
 import Admin from "./pages/Admin";
+import Login from "./pages/Login";
+import { AuthProvider } from "./components/Auth";
+import { AuthCheck } from "./components/AuthCheck";
 
 function App() {
   const appHeight = () => {
@@ -21,10 +24,16 @@ function App() {
     <Router>
       <Route exact path="/" component={Home} />
       <Route path="/sub/:pagename" component={Sub} />
-      <Route path="/admin.paint" component={AdminPaint} />
-      <Route path="/admin.photo" component={AdminPhoto} />
-      <Route path="/admin.sns" component={AdminSns} />
-      <Route path="/admin" component={Admin} />
+
+      <AuthProvider>
+        <AuthCheck fallback={<Login />}>
+          <Route path="/login" component={Login} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/admin.paint" component={AdminPaint} />
+          <Route path="/admin.photo" component={AdminPhoto} />
+          <Route path="/admin.sns" component={AdminSns} />
+        </AuthCheck>
+      </AuthProvider>
     </Router>
   );
 }
