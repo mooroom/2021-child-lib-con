@@ -4,8 +4,6 @@ import { auth } from "../firebase";
 import { Link } from "react-router-dom";
 
 function Login({ history }) {
-  const user = auth.currentUser;
-
   const handleLogin = useCallback(
     async (e) => {
       e.preventDefault();
@@ -13,7 +11,7 @@ function Login({ history }) {
       try {
         await auth.signInWithEmailAndPassword(id.value, pw.value);
         console.log(auth.currentUser.uid);
-        // history.push("/admin");
+        history.push("/test");
       } catch (error) {
         alert(error);
       }
@@ -21,9 +19,9 @@ function Login({ history }) {
     [history]
   );
 
-  if (user) {
-    return <Redirect to="/admin" />;
-  }
+  // if (user) {
+  //   return <Redirect to="/test" />;
+  // }
 
   return (
     <div>
