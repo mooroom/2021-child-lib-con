@@ -1,14 +1,21 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { AuthProvider } from "../components/Auth";
 import { Redirect } from "react-router";
+import { auth } from "../firebase";
 
 function Test(props) {
-  const user = useContext(AuthProvider);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  if (!user) {
-    console.log("no user");
-    return <Redirect to="/login" />;
-  }
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+    });
+  }, []);
+
+  // if (!currentUser) {
+  //   console.log("no user");
+  //   return <Redirect to="/login" />;
+  // }
   return <div>Hello!</div>;
 }
 
