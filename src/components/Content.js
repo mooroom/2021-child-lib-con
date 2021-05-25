@@ -166,7 +166,7 @@ function Content({ setModal, pagename }) {
         videoImg: thumbnail1,
         thumbnail: thumbnail1,
         button: true,
-        buttontxt: "SNS 인증 이벤트 참여",
+        buttontxt: "온라인극장 캡처 이벤트",
         onClick: () => setModal(1),
       },
       {
@@ -177,7 +177,7 @@ function Content({ setModal, pagename }) {
         videoImg: thumbnail2,
         thumbnail: thumbnail2,
         button: true,
-        buttontxt: "SNS 인증 이벤트 참여",
+        buttontxt: "온라인극장 캡처 이벤트",
         onClick: () => setModal(2),
       },
     ],
@@ -308,7 +308,7 @@ function Content({ setModal, pagename }) {
                 {pagename === "event" && (
                   <Button onClick={eventClick} color="#F7B855" float2>
                     <img style={bananaStyle2} src={banana2} alt="img" />
-                    SNS 인증 이벤트 참여
+                    온라인극장 캡처 이벤트
                   </Button>
                 )}
                 <Button onClick={item.onClick} color="#6AB32D" float>

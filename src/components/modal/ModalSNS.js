@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { Form } from "semantic-ui-react";
-import { db, timestamp } from "../../firebase";
+import { db, storage, timestamp } from "../../firebase";
 
 import ModalHead from "./ModalHead";
 import ModalTemplate from "./ModalTemplate";
@@ -132,21 +132,22 @@ function ModalSNS({ visible, setVisible }) {
   const [inputs, setInputs] = useState({
     name: "",
     phone: "",
-    sns: "",
+    url1: "",
   });
+  const [file1, setFile1] = useState(null);
 
-  const { name, phone, sns } = inputs;
+  const { name, phone } = inputs;
 
   useEffect(() => {
     let num = phone.toString();
     let numdigit = num.length;
     let isLegalDigit = numdigit === 11 || numdigit === 10;
-    if (check1 && name && phone && sns && isLegalDigit) {
+    if (check1 && name && phone && file1 && isLegalDigit) {
       setProceed(true);
     } else {
       setProceed(false);
     }
-  }, [check1, name, phone, sns]);
+  }, [check1, name, phone, file1]);
 
   const onChange = (e, data) => {
     const { value, name } = data;
@@ -158,6 +159,10 @@ function ModalSNS({ visible, setVisible }) {
 
   const onToggle1 = () => {
     setCheck1((check) => !check);
+  };
+
+  const fileChange1 = (e) => {
+    setFile1(e.target.files[0]);
   };
 
   const onCancel = () => {
@@ -177,8 +182,9 @@ function ModalSNS({ visible, setVisible }) {
     setInputs({
       name: "",
       phone: "",
-      sns: "",
+      url1: "",
     });
+    setFile1(null);
     setCheck1(false);
   };
 
@@ -191,9 +197,23 @@ function ModalSNS({ visible, setVisible }) {
     const createdAt = timestamp();
 
     db.collection("sns")
-      .doc(inputs.phone)
-      .set({ ...inputs, createdAt })
-      .then(() => {})
+      .add({ ...inputs, createdAt })
+      .then((docRef) => {
+        const storageRef1 = storage.ref(
+          "cap_" + inputs.name + "_" + inputs.phone
+        );
+        storageRef1.put(file1).on(
+          "state_changed",
+          (snap) => {},
+          (err) => {
+            console.log(err);
+          },
+          async () => {
+            const url = await storageRef1.getDownloadURL();
+            docRef.update({ url1: url });
+          }
+        );
+      })
       .catch((e) => {
         console.error("Error adding document: ", e);
       });
@@ -205,30 +225,34 @@ function ModalSNS({ visible, setVisible }) {
         <ModalTemplate>
           {step === 1 && (
             <>
-              <ModalHead image={letter} text="SNS 인증 이벤트" />
+              <ModalHead image={letter} text="온라인극장 캡처 이벤트" />
               <ModalList>
                 <Agreement>
                   <div
                     className="maintxt"
                     style={{ color: "#6AB32D", fontSize: "1.1rem" }}
                   >
-                    *SNS 인증 방법
+                    *캡처 이벤트 참여 방법
                   </div>
-                  <div className="description">
+                  {/* <div className="description">
                     SNS인증 시, 아래 기재된 내용을 반드시 지켜주세요!
-                  </div>
+                  </div> */}
                   <div className="agree">
                     <div className="agreeBox">
-                      1. 온라인 극장을 시청하고, 본인의 SNS에 올린 후 해시태그로
-                      인증해주세요.
+                      {/* 1. 온라인 극장을 시청하고, 본인의 SNS에 올린 후 해시태그로
+                      인증해주세요. */}
+                      온라인 극장 시청화면을 찍어, 캡처 화면을 첨부파일로
+                      올려주세요!
                       <br />
                       <b>
-                        #국립어린이청소년도서관 #2021어린이날큰잔치 #온라인극장
+                        {/* #국립어린이청소년도서관 #2021어린이날큰잔치 #온라인극장 */}
+                        *선착순 마감 후 모바일쿠폰을 순차적으로 발송해드립니다.
+                        (중복신청 불가)
                       </b>
-                      <br />
+                      {/* <br />
                       <br />
                       2. 비공개 계정의 경우 심사대상에서 제외됩니다! 꼭 계정을
-                      공개로 전환해주세요!
+                      공개로 전환해주세요! */}
                     </div>
                   </div>
                 </Agreement>
@@ -253,12 +277,10 @@ function ModalSNS({ visible, setVisible }) {
                   />
                   <Form.Input
                     fluid
-                    type="text"
-                    label="SNS 업로드 주소"
-                    placeholder="공개 계정을 입력해주세요(비공개 시, 심사제외)"
-                    name="sns"
-                    value={sns}
-                    onChange={onChange}
+                    type="file"
+                    label="파일첨부"
+                    readOnly
+                    onChange={fileChange1}
                   />
 
                   <Agreement>
@@ -279,7 +301,7 @@ function ModalSNS({ visible, setVisible }) {
                         <br />
                         <b>수집하는 개인정보의 항목과 목적</b>
                         <br />
-                        -항목 : 성명, 생년월일, 휴대폰 번호, SNS 주소
+                        -항목 : 성명, 휴대폰 번호
                         <br />
                         -목적 : 개인 식별 및 연락경로 확보
                         <br />

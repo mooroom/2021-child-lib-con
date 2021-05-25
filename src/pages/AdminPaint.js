@@ -30,8 +30,8 @@ function AdminPaint(props) {
   }, []);
 
   const onGridReady = (params) => {
-    // setGridApi(params.api);
-    // setGridColumnApi(params.columnApi);
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
   };
 
   const onBtExport = () => {

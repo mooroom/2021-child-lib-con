@@ -3,6 +3,7 @@ import { db } from "../firebase";
 import styled from "styled-components";
 
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
+import ImgCellRenderer from "../cellRederer/imgCellRenderer";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -53,6 +54,9 @@ function AdminSns(props) {
         style={{ height: "100%", width: "100%" }}
       >
         <AgGridReact
+          frameworkComponents={{
+            imgCellRenderer: ImgCellRenderer,
+          }}
           rowData={datas}
           defaultColDef={{
             editable: true,
@@ -72,6 +76,11 @@ function AdminSns(props) {
           />
           <AgGridColumn headerName="이름" field="name"></AgGridColumn>
           <AgGridColumn headerName="휴대폰" field="phone"></AgGridColumn>
+          <AgGridColumn
+            headerName="파일1"
+            field="url1"
+            cellRenderer="imgCellRenderer"
+          ></AgGridColumn>
           <AgGridColumn headerName="sns주소" field="sns"></AgGridColumn>
           <AgGridColumn
             headerName="제출시간"
