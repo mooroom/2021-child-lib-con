@@ -6,6 +6,7 @@ import Particles from "react-tsparticles";
 import Container from "../components/Container";
 import SquareContainer from "../components/SquareContainer";
 import SquareMenu from "../components/SquareMenu";
+import Button from "../components/Button";
 
 import title from "../img/title3.svg";
 import mon1 from "../img/mon_1.svg";
@@ -15,6 +16,7 @@ import mon4 from "../img/mon_4.svg";
 import mon5 from "../img/mon_5.svg";
 import logo from "../img/logo_lib.svg";
 import { ReactComponent as CloseIcon } from "../img/icon_close.svg";
+import { Link } from "react-router-dom";
 
 const options = {
   background: {
@@ -196,10 +198,82 @@ const BrowserAlert = styled.div`
     `}
 `;
 
+const DarkBackground = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+
+  ${(props) =>
+    !props.visible &&
+    css`
+      display: none;
+    `}
+`;
+
+const PopupBlock = styled.div`
+  background-color: white;
+  max-width: 400px;
+  padding: 0px 20px 30px 20px;
+  border-radius: 20px;
+  position: relative;
+`;
+
+const PopupHead = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px 0px 10px 0px;
+`;
+
+const PopupContent = styled.div`
+  color: var(--grey600);
+  text-align: center;
+
+  h3 {
+    text-align: center;
+    font-weight: bold;
+  }
+  h5 {
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+`;
+
 function Home(props) {
   const [alert, setAlert] = useState(true);
+  const [popUp, setPopup] = useState(true);
   return (
     <>
+      <DarkBackground visible={popUp}>
+        <PopupBlock>
+          <PopupContent>
+            <PopupHead>
+              <CloseIcon fill="#6b7684" onClick={() => setPopup(false)} />
+            </PopupHead>
+            <h3>온라인극장 캡처 이벤트 진행중!</h3>
+            <br />
+            <h5>
+              <b style={{ color: "red" }}>[마감임박]</b>
+              <br />
+              <b>선착순 300명</b>을 대상으로 온라인 극장 캡처 인증 이벤트를
+              진행하고 있습니다! 더 늦기 전에 참여해보세요!
+            </h5>
+            <Link to="/sub/theater">
+              <Button width="100%" color="#6AB32D">
+                참여하러 가기
+              </Button>
+            </Link>
+          </PopupContent>
+        </PopupBlock>
+      </DarkBackground>
       <Particles id="tsparticles" options={options} />
       <BrowserAlert visible={alert}>
         <div className="txt">
