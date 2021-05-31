@@ -303,7 +303,7 @@ function Content({ setModal, pagename }) {
             <div className="contentTxt">{item.txt}</div>
             {item.img && <img src={item.img} alt="img" />}
             {item.video && <YoutubeEmbed embedId={item.video} />}
-            {item.button && (
+            {/* {item.button && (
               <>
                 {pagename === "event" && (
                   <Button onClick={eventClick} color="#F7B855" float2>
@@ -318,7 +318,7 @@ function Content({ setModal, pagename }) {
                   {item.buttontxt}
                 </Button>
               </>
-            )}
+            )} */}
           </ContentBlock>
         ))}
 

@@ -249,10 +249,10 @@ const PopupContent = styled.div`
 
 function Home(props) {
   const [alert, setAlert] = useState(true);
-  const [popUp, setPopup] = useState(true);
+  // const [popUp, setPopup] = useState(true);
   return (
     <>
-      <DarkBackground visible={popUp}>
+      {/* <DarkBackground visible={popUp}>
         <PopupBlock>
           <PopupContent>
             <PopupHead>
@@ -273,7 +273,7 @@ function Home(props) {
             </Link>
           </PopupContent>
         </PopupBlock>
-      </DarkBackground>
+      </DarkBackground> */}
       <Particles id="tsparticles" options={options} />
       <BrowserAlert visible={alert}>
         <div className="txt">
