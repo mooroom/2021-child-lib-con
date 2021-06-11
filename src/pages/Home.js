@@ -249,31 +249,34 @@ const PopupContent = styled.div`
 
 function Home(props) {
   const [alert, setAlert] = useState(true);
-  // const [popUp, setPopup] = useState(true);
+  const [popUp, setPopup] = useState(true);
   return (
     <>
-      {/* <DarkBackground visible={popUp}>
+      <DarkBackground visible={popUp}>
         <PopupBlock>
           <PopupContent>
             <PopupHead>
               <CloseIcon fill="#6b7684" onClick={() => setPopup(false)} />
             </PopupHead>
-            <h3>온라인극장 캡처 이벤트 진행중!</h3>
+            <h3>수상작 발표 안내</h3>
             <br />
             <h5>
-              <b style={{ color: "red" }}>[마감임박]</b>
+              &lt;<b>집 콕 책 읽기 사진 공모전</b>&gt;
               <br />
-              <b>선착순 300명</b>을 대상으로 온라인 극장 캡처 인증 이벤트를
-              진행하고 있습니다! 더 늦기 전에 참여해보세요!
+              &lt;<b>독서 감상 그리기 대회</b>&gt;
+              <br />
+              <br />
+              수상자가 발표되었습니다. 자세한 내용은 국립어린이청소년도서관
+              홈페이지 내 공지사항에서확인해주세요.
             </h5>
-            <Link to="/sub/theater">
+            <a href="https://www.nlcy.go.kr" target="_blank">
               <Button width="100%" color="#6AB32D">
-                참여하러 가기
+                수상작 확인하러가기
               </Button>
-            </Link>
+            </a>
           </PopupContent>
         </PopupBlock>
-      </DarkBackground> */}
+      </DarkBackground>
       <Particles id="tsparticles" options={options} />
       <BrowserAlert visible={alert}>
         <div className="txt">
