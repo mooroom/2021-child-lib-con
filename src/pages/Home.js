@@ -258,7 +258,7 @@ function Home(props) {
             <PopupHead>
               <CloseIcon fill="#6b7684" onClick={() => setPopup(false)} />
             </PopupHead>
-            <h3>수상작 발표 안내</h3>
+            <h3>수상자 발표 안내</h3>
             <br />
             <h5>
               &lt;<b>집 콕 책 읽기 사진 공모전</b>&gt;
@@ -267,11 +267,11 @@ function Home(props) {
               <br />
               <br />
               수상자가 발표되었습니다. 자세한 내용은 국립어린이청소년도서관
-              홈페이지 내 공지사항에서확인해주세요.
+              홈페이지 내 공지사항에서 확인해주세요.
             </h5>
             <a href="https://www.nlcy.go.kr" target="_blank">
               <Button width="100%" color="#6AB32D">
-                수상작 확인하러가기
+                수상자 확인하러가기
               </Button>
             </a>
           </PopupContent>
