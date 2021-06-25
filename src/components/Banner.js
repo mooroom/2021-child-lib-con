@@ -6,6 +6,7 @@ import banner2 from "../img/banner2.svg";
 import banner3 from "../img/banner3.svg";
 import banner4 from "../img/banner4.svg";
 import banner5 from "../img/banner5.svg";
+import banner6 from "../img/banner6.svg";
 
 const BannerBlock = styled.section`
   width: 100%;
@@ -93,6 +94,18 @@ const bannerData = {
     bg: "#B4E094",
     txt: "이 벤 트",
     subtxt: "도서관 방문 어린이를 위한 선물을 준비했어요!",
+  },
+  award1: {
+    img: banner6,
+    bg: "#5BBACE",
+    txt: "독서감상 그리기 대회",
+    subtxt: "어린이 여러분의 수상을 축하합니다!",
+  },
+  award2: {
+    img: banner6,
+    bg: "#5BBACE",
+    txt: "집콕 책읽기 사진 공모전",
+    subtxt: "어리이 여러분의 수상을 축하합니다!",
   },
 };
 

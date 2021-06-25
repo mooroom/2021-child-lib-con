@@ -4,6 +4,7 @@ import "./App.css";
 
 import Home from "./pages/Home";
 import Sub from "./pages/Sub";
+import Awards from "./pages/Awards";
 import AdminPaint from "./pages/AdminPaint";
 import AdminPhoto from "./pages/AdminPhoto";
 import AdminSns from "./pages/AdminSns";
@@ -25,6 +26,7 @@ function App() {
     <Router>
       <Route exact path="/" component={Home} />
       <Route path="/sub/:pagename" component={Sub} />
+      <Route path="/awards/:pagename" component={Awards} />
       <AuthProvider>
         <PrivateRoute path="/admin" component={Admin} />
         <PrivateRoute path="/admin.paint" component={AdminPaint} />

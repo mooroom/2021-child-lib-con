@@ -7,6 +7,14 @@ const ContainerBlock = styled.div`
   width: 100%;
   max-width: 1140px;
   margin: auto;
+
+  ${(props) =>
+    props.home &&
+    css`
+      width: 100%;
+      max-width: 1400px;
+    `}
+
   ${(props) =>
     props.flex &&
     css`
@@ -53,9 +61,9 @@ const Inner = styled.div`
     `}
 `;
 
-function Container({ children, flex, img, content }) {
+function Container({ children, flex, img, content, home }) {
   return (
-    <ContainerBlock flex={flex} content={content}>
+    <ContainerBlock flex={flex} content={content} home={home}>
       <Inner flex={flex} img={img}>
         {children}
       </Inner>

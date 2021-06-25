@@ -7,8 +7,11 @@ import Container from "../components/Container";
 import SquareContainer from "../components/SquareContainer";
 import SquareMenu from "../components/SquareMenu";
 import Button from "../components/Button";
+import WallContainer from "../components/WallContainer";
+import Wall from "../components/Wall";
 
-import title from "../img/title3.svg";
+// import title from "../img/title3.svg";
+import title from "../img/logo_main.svg";
 import mon1 from "../img/mon_1.svg";
 import mon2 from "../img/mon_2.svg";
 import mon3 from "../img/mon_3.svg";
@@ -16,7 +19,10 @@ import mon4 from "../img/mon_4.svg";
 import mon5 from "../img/mon_5.svg";
 import logo from "../img/logo_lib.svg";
 import { ReactComponent as CloseIcon } from "../img/icon_close.svg";
-import { Link } from "react-router-dom";
+import wall1 from "../img/wall1.jpg";
+import wall2 from "../img/wall2.jpg";
+import title1 from "../img/illust_paint.png";
+import title2 from "../img/illust_photo.png";
 
 const options = {
   background: {
@@ -142,7 +148,7 @@ const TitleCon = styled.div`
   width: 100%;
   text-align: center;
   img {
-    width: 60%;
+    width: 50%;
   }
   margin-bottom: 2rem;
 `;
@@ -165,7 +171,7 @@ const LogoCon = styled.div`
   img {
     height: 50px;
   }
-  margin-top: 5rem;
+  margin-top: 3rem;
   @media (max-width: 767.98px) {
     img {
       height: 30px;
@@ -247,12 +253,27 @@ const PopupContent = styled.div`
   }
 `;
 
+const wallContents = [
+  {
+    title: "독서 감상 그리기 대회 수상작",
+    imgTitle: title1,
+    imgMain: wall1,
+    link: "/awards/award1",
+  },
+  {
+    title: "집콕 책읽기 사진 공모전 수상작",
+    imgTitle: title2,
+    imgMain: wall2,
+    link: "/awards/award2",
+  },
+];
+
 function Home(props) {
   const [alert, setAlert] = useState(true);
-  const [popUp, setPopup] = useState(true);
+  // const [popUp, setPopup] = useState(true);
   return (
     <>
-      <DarkBackground visible={popUp}>
+      {/* <DarkBackground visible={popUp}>
         <PopupBlock>
           <PopupContent>
             <PopupHead>
@@ -276,7 +297,7 @@ function Home(props) {
             </a>
           </PopupContent>
         </PopupBlock>
-      </DarkBackground>
+      </DarkBackground> */}
       <Particles id="tsparticles" options={options} />
       <BrowserAlert visible={alert}>
         <div className="txt">
@@ -285,18 +306,23 @@ function Home(props) {
         </div>
         <CloseIcon fill="white" onClick={() => setAlert(false)} />
       </BrowserAlert>
-      <Container flex>
+      <Container flex home>
         <TitleCon>
           <img src={title} alt="img" />
         </TitleCon>
-        <SubTitleCon>
+        {/* <SubTitleCon>
           "어린이가 꿈꾸는 세상, 국립어린이청소년도서관이 응원합니다!"
         </SubTitleCon>
         <SquareContainer>
           {menus.map((menu) => (
             <SquareMenu option={menu} key={menu.id} />
           ))}
-        </SquareContainer>
+        </SquareContainer> */}
+        <WallContainer>
+          {wallContents.map((content) => (
+            <Wall content={content} />
+          ))}
+        </WallContainer>
         <LogoCon>
           <img src={logo} alt="img" />
         </LogoCon>

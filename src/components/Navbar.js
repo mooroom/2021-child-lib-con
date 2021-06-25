@@ -136,6 +136,16 @@ const NavItem = styled.li`
           background-color: ${color};
           color: white;
         `;
+      } else if (current === "award1" && color === "#5BBACE") {
+        return css`
+          background-color: ${color};
+          color: white;
+        `;
+      } else if (current === "award2" && color === "#51B7CC") {
+        return css`
+          background-color: ${color};
+          color: white;
+        `;
       }
     }}
   }
@@ -166,36 +176,51 @@ const MenuBtn = styled.div`
   }
 `;
 
+// const nav_items = [
+//   {
+//     id: 1,
+//     color: "#4fb2ab",
+//     link: "/sub/support",
+//     txt: "응원영상",
+//   },
+//   {
+//     id: 2,
+//     color: "#ec898e",
+//     link: "/sub/theater",
+//     txt: "온라인극장",
+//   },
+//   {
+//     id: 3,
+//     color: "#905b9e",
+//     link: "/sub/contest",
+//     txt: "공모전",
+//   },
+//   {
+//     id: 4,
+//     color: "#e64c29",
+//     link: "/sub/program",
+//     txt: "프로그램",
+//   },
+//   {
+//     id: 5,
+//     color: "#69a71b",
+//     link: "/sub/event",
+//     txt: "이벤트",
+//   },
+// ];
+
 const nav_items = [
   {
     id: 1,
-    color: "#4fb2ab",
-    link: "/sub/support",
-    txt: "응원영상",
+    color: "#5BBACE",
+    link: "/awards/award1",
+    txt: "독서감상 그리기대회",
   },
   {
     id: 2,
-    color: "#ec898e",
-    link: "/sub/theater",
-    txt: "온라인극장",
-  },
-  {
-    id: 3,
-    color: "#905b9e",
-    link: "/sub/contest",
-    txt: "공모전",
-  },
-  {
-    id: 4,
-    color: "#e64c29",
-    link: "/sub/program",
-    txt: "프로그램",
-  },
-  {
-    id: 5,
-    color: "#69a71b",
-    link: "/sub/event",
-    txt: "이벤트",
+    color: "#51B7CC",
+    link: "/awards/award2",
+    txt: "집콕 책읽기 사진공모전",
   },
 ];
 
