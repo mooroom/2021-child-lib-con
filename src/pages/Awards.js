@@ -7,9 +7,6 @@ import Award from "../components/Award";
 
 function Awards({ match }) {
   const { pagename } = match.params;
-  useEffect(() => {
-    console.log(pagename);
-  });
 
   return (
     <>

@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-import medal1 from "../img/medal1.svg";
-import medal2 from "../img/medal2.svg";
-import medal3 from "../img/medal3.svg";
-import medal4 from "../img/medal4.svg";
+// import medal1 from "../img/medal1.svg";
+// import medal2 from "../img/medal2.svg";
+// import medal3 from "../img/medal3.svg";
+// import medal4 from "../img/medal4.svg";
 
 const CardBlock = styled.div`
   width: 310px;
@@ -70,29 +70,29 @@ const CardName = styled.div`
   }
 `;
 
-function AwardCard({ cardData }) {
+function AwardCard({ cardData, setDetail }) {
   const { medal, name, img } = cardData;
-  const [medalImg, setMedalImg] = useState(null);
+  // const [medalImg, setMedalImg] = useState(null);
 
-  useEffect(() => {
-    if (medal === 1) {
-      setMedalImg(medal1);
-    } else if (medal === 2) {
-      setMedalImg(medal2);
-    } else if (medal === 3) {
-      setMedalImg(medal3);
-    } else {
-      setMedalImg(medal4);
-    }
-  }, [medal]);
+  // useEffect(() => {
+  //   if (medal === 1) {
+  //     setMedalImg(medal1);
+  //   } else if (medal === 2) {
+  //     setMedalImg(medal2);
+  //   } else if (medal === 3) {
+  //     setMedalImg(medal3);
+  //   } else {
+  //     setMedalImg(medal4);
+  //   }
+  // }, [medal]);
 
   return (
-    <CardBlock>
+    <CardBlock onClick={() => setDetail(cardData)}>
       <CardImage>
         <img src={img} />
       </CardImage>
       <CardMedal>
-        <img src={medalImg} />
+        <img src={medal} />
       </CardMedal>
       <CardName>
         <span className="line" />

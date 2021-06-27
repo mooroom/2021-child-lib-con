@@ -255,12 +255,14 @@ const PopupContent = styled.div`
 
 const wallContents = [
   {
+    id: 1,
     title: "독서 감상 그리기 대회 수상작",
     imgTitle: title1,
     imgMain: wall1,
     link: "/awards/award1",
   },
   {
+    id: 2,
     title: "집콕 책읽기 사진 공모전 수상작",
     imgTitle: title2,
     imgMain: wall2,
@@ -320,7 +322,7 @@ function Home(props) {
         </SquareContainer> */}
         <WallContainer>
           {wallContents.map((content) => (
-            <Wall content={content} />
+            <Wall key={content.id} content={content} />
           ))}
         </WallContainer>
         <LogoCon>
