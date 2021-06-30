@@ -105,7 +105,7 @@ const bannerData = {
     img: banner6,
     bg: "#5BBACE",
     txt: "집콕 책읽기 사진 공모전",
-    subtxt: "어리이 여러분의 수상을 축하합니다!",
+    subtxt: "어린이 여러분의 수상을 축하합니다!",
   },
 };
 

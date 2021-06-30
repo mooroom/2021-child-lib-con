@@ -47,7 +47,7 @@ const DetailContent = styled.div`
 
 const DetailImg = styled.div`
   position: relative;
-  width: 45%;
+  width: 55%;
   border: 2px solid white;
   border-radius: 10px;
 
@@ -83,16 +83,16 @@ const DetailImg = styled.div`
 `;
 
 const DetailTxt = styled.div`
-  width: 45%;
+  width: 35%;
   padding: 30px;
   color: white;
 
   .group {
-    font-size: 15px;
+    font-size: 20px;
   }
 
   .title {
-    font-size: 40px;
+    font-size: 35px;
     font-weight: bold;
     margin-bottom: 25px;
   }
@@ -111,6 +111,9 @@ const DetailTxt = styled.div`
     props.type === "award1"
       ? css``
       : css`
+          width: 55%;
+          padding-left: 0;
+          padding-right: 0;
           display: flex;
           padding-bottom: 0;
           .title {
@@ -147,7 +150,7 @@ function AwardDetail({ detail, setDetail, pagename }) {
   }
 
   return (
-    <DetailBlock visible={detail}>
+    <DetailBlock visible={detail} onClick={() => setDetail(null)}>
       <DetailContent type={type}>
         <DetailImg>
           <img className="medal" src={detail.medal} />
@@ -166,12 +169,19 @@ function AwardDetail({ detail, setDetail, pagename }) {
               <div className="description">{detail.description}</div>
             </>
           ) : (
-            <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                width: "100%",
+              }}
+            >
               <div className="prize-name">
                 {detail.name}&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
               </div>
               <div className="title">{detail.title}</div>
-            </>
+            </div>
           )}
         </DetailTxt>
         <CloseButton onClick={() => setDetail(null)} />

@@ -39,9 +39,10 @@ const CardMedal = styled.div`
 const CardImage = styled.div`
   width: 100%;
   height: 400px;
-  text-align: center;
   overflow: hidden;
   border-radius: 14px;
+  display: flex;
+  justify-content: center;
 
   img {
     height: 100%;

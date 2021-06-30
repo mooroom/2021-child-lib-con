@@ -11,7 +11,7 @@ const WallBlock = styled.div`
 
 const WallHead = styled.div`
   width: 100%;
-  padding: 20px 0px;
+  padding: 30px 0px 20px 0px;
   color: "#2B2B2B";
   display: flex;
   align-items: center;
@@ -33,7 +33,7 @@ const WallImg = styled.div`
     border-radius: 10px;
     width: 100%;
   }
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 `;
 
 const WallLink = styled(Link)`
