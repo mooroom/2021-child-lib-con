@@ -525,6 +525,15 @@ const CardContainer = styled.div`
   justify-content: center;
   overflow-x: hidden;
   position: relative;
+
+  @media (max-width: 767.98px) {
+    padding: 50px;
+    overflow-x: scroll;
+    justify-content: flex-start;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const ArrowContainer = styled.div`
@@ -536,6 +545,10 @@ const ArrowContainer = styled.div`
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 767.98px) {
+    display: none;
+  }
 `;
 
 const ArrowButton = styled.div`
@@ -575,10 +588,13 @@ function Award({ pagename }) {
   const [detail, setDetail] = useState(null);
 
   useEffect(() => {
+    const windowWidth = window.innerWidth;
+
     awardType.current = awardData[pagename];
     slideCount.current = 0;
     const firstCards = awardType.current.slice(0, 4);
-    setCards(firstCards);
+
+    windowWidth <= 767.98 ? setCards(awardType.current) : setCards(firstCards);
   }, [pagename]);
 
   const onClickRight = () => {
@@ -630,9 +646,18 @@ function Award({ pagename }) {
             <RightIcon className="icon" />
           </ArrowButton>
         </ArrowContainer>
-        {cards.map((card) => (
-          <AwardCard key={card.id} cardData={card} setDetail={setDetail} />
-        ))}
+        {cards.map((card) =>
+          card.id === 1 ? (
+            <AwardCard
+              key={card.id}
+              cardData={card}
+              setDetail={setDetail}
+              first={true}
+            />
+          ) : (
+            <AwardCard key={card.id} cardData={card} setDetail={setDetail} />
+          )
+        )}
       </CardContainer>
       {detail && (
         <AwardDetail

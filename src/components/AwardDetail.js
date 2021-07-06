@@ -25,14 +25,20 @@ const DetailBlock = styled.div`
     css`
       visibility: visible;
     `}
+
+  @media (max-width: 767.98px) {
+    padding: 50px;
+    padding-top: 20px;
+  }
 `;
 
 const DetailContent = styled.div`
   width: 100%;
-  max-width: 1400px;
+  max-width: 1180px;
   display: flex;
   justify-content: center;
   position: relative;
+  margin-top: 45px;
 
   ${(props) =>
     props.type === "award1"
@@ -43,6 +49,11 @@ const DetailContent = styled.div`
           align-items: center;
           flex-direction: column;
         `}
+
+  @media (max-width: 767.98px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const DetailImg = styled.div`
@@ -71,7 +82,7 @@ const DetailImg = styled.div`
     width: 150px;
     height: 150px;
     position: absolute;
-    top: -75px;
+    top: -50px;
     left: -75px;
   }
 
@@ -79,6 +90,24 @@ const DetailImg = styled.div`
     content: "";
     display: block;
     padding-bottom: 100%;
+  }
+
+  ${(props) =>
+    props.type === "award1"
+      ? css``
+      : css`
+          width: 50%;
+        `}
+
+  @media (max-width: 767.98px) {
+    width: 100%;
+    .medal {
+      width: 70px;
+      height: 70px;
+      position: absolute;
+      top: -35px;
+      left: -35px;
+    }
   }
 `;
 
@@ -111,7 +140,7 @@ const DetailTxt = styled.div`
     props.type === "award1"
       ? css``
       : css`
-          width: 55%;
+          width: 50%;
           padding-left: 0;
           padding-right: 0;
           display: flex;
@@ -124,6 +153,45 @@ const DetailTxt = styled.div`
             margin-bottom: 0;
           }
         `}
+
+  @media (max-width: 767.98px) {
+    width: 100%;
+    padding: 0px;
+    padding-top: 20px;
+
+    .group {
+      font-size: 15px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .prize-name {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      font-size: 16px;
+    }
+
+    ${(props) =>
+      props.type === "award1"
+        ? css``
+        : css`
+            .title {
+              font-size: 16px;
+              margin-bottom: 0;
+            }
+            .prize-name {
+              margin-bottom: 0;
+            }
+          `}
+  }
 `;
 
 const CloseButton = styled(CloseIcon)`
@@ -133,6 +201,10 @@ const CloseButton = styled(CloseIcon)`
   position: absolute;
   top: 0;
   right: 0;
+
+  @media (max-width: 767.98px) {
+    display: none;
+  }
 `;
 
 function AwardDetail({ detail, setDetail, pagename }) {
@@ -152,7 +224,7 @@ function AwardDetail({ detail, setDetail, pagename }) {
   return (
     <DetailBlock visible={detail} onClick={() => setDetail(null)}>
       <DetailContent type={type}>
-        <DetailImg>
+        <DetailImg type={type}>
           <img className="medal" src={detail.medal} />
           <div className="mainImg">
             <img src={detail.img} />

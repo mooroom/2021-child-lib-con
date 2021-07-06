@@ -64,7 +64,7 @@ const NavContent = styled.div`
         left: 0;
         background-color: var(--grey100);
         width: 100%;
-        height: 300px;
+        height: 180px;
       `}
   }
 `;

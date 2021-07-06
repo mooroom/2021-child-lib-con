@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 // import medal1 from "../img/medal1.svg";
 // import medal2 from "../img/medal2.svg";
@@ -19,6 +19,12 @@ const CardBlock = styled.div`
   & + & {
     margin-left: 30px;
   }
+
+  ${(props) =>
+    props.first &&
+    css`
+      margin-left: 320px;
+    `}
 `;
 
 const CardMedal = styled.div`
@@ -71,8 +77,9 @@ const CardName = styled.div`
   }
 `;
 
-function AwardCard({ cardData, setDetail }) {
+function AwardCard({ cardData, setDetail, first }) {
   const { medal, name, img } = cardData;
+  const [firstCard, setFirstCard] = useState(first);
   // const [medalImg, setMedalImg] = useState(null);
 
   // useEffect(() => {
@@ -87,8 +94,15 @@ function AwardCard({ cardData, setDetail }) {
   //   }
   // }, [medal]);
 
+  useEffect(() => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth > 767.98) {
+      setFirstCard(false);
+    }
+  }, []);
+
   return (
-    <CardBlock onClick={() => setDetail(cardData)}>
+    <CardBlock onClick={() => setDetail(cardData)} firstCard={firstCard}>
       <CardImage>
         <img src={img} />
       </CardImage>

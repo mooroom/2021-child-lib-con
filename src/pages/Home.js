@@ -150,7 +150,15 @@ const TitleCon = styled.div`
   img {
     width: 50%;
   }
-  margin-bottom: 2rem;
+  margin-top: -2rem;
+  margin-bottom: 4rem;
+
+  @media (max-width: 768px) {
+    img {
+      width: 70%;
+    }
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const SubTitleCon = styled.div`

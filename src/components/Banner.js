@@ -13,6 +13,10 @@ const BannerBlock = styled.section`
   position: relative;
   overflow: hidden;
   height: 250px;
+
+  @media (max-width: 767.98px) {
+    height: 180px;
+  }
 `;
 
 const BannerBackground = styled.div`

@@ -5,6 +5,10 @@ const WallContainerBlock = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 767.98px) {
+    flex-direction: column;
+  }
 `;
 
 function WallContainer({ children }) {

@@ -7,6 +7,11 @@ const WallBlock = styled.div`
   background: white;
   padding: 0px 20px;
   border-radius: 15px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0 15px;
+  }
 `;
 
 const WallHead = styled.div`
@@ -25,6 +30,19 @@ const WallHead = styled.div`
   img {
     width: 50px;
   }
+
+  @media (max-width: 768px) {
+    padding: 20px 0px 13px 0px;
+
+    h1 {
+      margin-left: 0.7rem;
+      font-size: 1.2rem;
+    }
+
+    img {
+      width: 30px;
+    }
+  }
 `;
 
 const WallImg = styled.div`
@@ -33,7 +51,7 @@ const WallImg = styled.div`
     border-radius: 10px;
     width: 100%;
   }
-  padding-bottom: 15px;
+  padding-bottom: 10px;
 `;
 
 const WallLink = styled(Link)`
@@ -43,8 +61,16 @@ const WallLink = styled(Link)`
     color: inherit;
   }
 
-  & + & {
-    margin-left: 30px;
+  @media (min-width: 768px) {
+    & + & {
+      margin-left: 30px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    & + & {
+      margin-top: 30px;
+    }
   }
 `;
 
